@@ -1,9 +1,9 @@
-import { NextRequest } from 'next/server';
-import { dataTemplate } from '@/helpers/returned_response_template';
-import { getServerAuthSession } from '@/lib/nextauthOptions';
 import { ChatbotService } from '@/services/Chatbot/chatbot.service';
-import { ObjectId } from 'mongodb';
 import { UpdateSectionRequest } from 'types/apps/chatbot/api.type';
+import { NextRequest } from 'next/server';
+import { getServerAuthSession } from '@/lib/nextauthOptions';
+import { dataTemplate } from '@/helpers/returned_response_template';
+import { ObjectId } from 'mongodb';
 
 export async function POST(req: NextRequest) {
 	try {
@@ -27,4 +27,4 @@ export async function POST(req: NextRequest) {
 			error: error.message,
 		}, 500);
 	}
-}
+};

@@ -211,8 +211,9 @@ export class ChatbotService {
 		return this.sectionMessageCollection.deleteOne({ _id: sectionId });
 	}
 
-	public async updateChatHistory(sectionId: ObjectId, updateData: Partial<SectionMessageGeneratedType>) {
+	public async updateChatHistory(sectionId: string, updateData: Partial<SectionMessageGeneratedType>) {
 		await this.loadDB();
+		// const user = await this.userCollection.findOne({ _id: this.USER_ID });
 		const updatedStatus = await this.db.collection('section_messages')
 			.updateOne({ _id: new ObjectId(sectionId) }, {
 				$set: {

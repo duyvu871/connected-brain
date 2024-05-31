@@ -3,6 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './quill-custom.css';
+import Quill from 'quill';
+
+const Keyboard = ReactQuill.Quill.import('modules/keyboard');
+Quill.register('modules/keyboard', Keyboard);
 
 type Props = {
 	placeholder?: string;
@@ -10,8 +14,10 @@ type Props = {
 	onContentChange: (content: string) => void;
 	setIsTooLong?: (isTooLong: boolean) => void;
 	value: string;
-	plainText: string;
-	setPlainText: (value: string) => void;
+	isDisabled?: boolean;
+	event?: {
+		onShiftEnter?: () => void;
+	}
 };
 
 const AutoResizeQuill = ({
@@ -19,26 +25,45 @@ const AutoResizeQuill = ({
 													 onContentChange,
 													 setIsTooLong,
 													 value,
-													 plainText,
-													 setPlainText,
+													 isDisabled,
+													 event,
 												 }: Props) => {
-	// const [plainText, setPlainText] = useState<string>(value);
-
-	const quillRef = useRef<any>(null);
+	const [plainText, setPlainText] = React.useState<string>('');
+	const quillRef = useRef<ReactQuill | any>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const [quillInstance, setQuillInstance] = React.useState<ReactQuill.UnprivilegedEditor>(null);
 
-	const handleContentChange = (content: string) => {
+	const handleKeyDown = (eventKeyDown: React.KeyboardEvent) => {
+		if (eventKeyDown.key === 'Enter' && eventKeyDown.shiftKey) {
+			// Shift + Enter: insert a newline
+			eventKeyDown.preventDefault();
+			quillRef.current.getEditor().insertText(quillInstance?.getSelection(true).index, '', 'user');
+
+		} else if (eventKeyDown.key === 'Enter') {
+			// Enter: submit
+			eventKeyDown.preventDefault();
+			eventKeyDown.stopPropagation();
+			setPlainText('');
+			onContentChange('');
+			event?.onShiftEnter && event.onShiftEnter();
+		}
+	};
+
+	const handleContentChange = (content: string, delta: any, source: string, editor: ReactQuill.UnprivilegedEditor) => {
 		const childCount: number = quillRef.current.getEditor().selection.root.childNodes.length;
 		const rawContent = quillRef.current.getEditor().root.innerText;
 		const newLinesCount = rawContent.split('\n').filter((item: string) => item !== '');
+		const textContent = quillRef.current.getEditor().getContents().ops[0].insert;
 		// console.log(newLinesCount);
 		if (childCount > 1 || newLinesCount.length > 1) {
 			setIsTooLong && setIsTooLong(true);
 		} else {
 			setIsTooLong && setIsTooLong(false);
 		}
-		onContentChange(quillRef.current.getEditor().root.innerText);
-		setPlainText(content);
+		// console.log(textContent);
+		onContentChange(textContent.replace(/\n+$/, ''));
+		setPlainText(quillRef.current.getEditor().root.innerHTML);
+		setQuillInstance(editor);
 	};
 
 	useEffect(() => {
@@ -62,15 +87,15 @@ const AutoResizeQuill = ({
 		return () => quill.off('text-change', updateHeight);
 	}, []);
 
-	// useEffect();
-
 	return (
 		<div ref={containerRef} style={{ height: 'auto', overflow: 'hidden' }} className={className + ' input_editor'}>
 			<ReactQuill
-				value={plainText}
+				readOnly={isDisabled}
+				value={plainText || value}
 				ref={quillRef}
 				theme="snow"
 				onChange={handleContentChange}
+				onKeyDown={handleKeyDown}
 				placeholder={placeholder}
 				className={'border-0 max-h-52'}
 				formats={[]}

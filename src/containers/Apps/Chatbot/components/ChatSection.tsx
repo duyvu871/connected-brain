@@ -14,60 +14,13 @@ import { useChatbot } from '@/contexts/ChatbotContext';
 import { useWindowScroll } from '@uidotdev/usehooks';
 import LaunchScreen from '@/containers/Apps/Chatbot/components/LaunchScreen';
 import AutoResizeQuill from '@/containers/Apps/Chatbot/components/Textarea';
+import { LeftChat } from '@/components/SkeletonLoad/ChatSection';
 
 interface ChatSectionProps {
 	classNames?: {
 		wrapper?: string;
 	};
 };
-
-type ChatItemProps = {
-	classNames?: {
-		wrapper?: string;
-		chatList?: string;
-	},
-	children?: React.ReactNode,
-};
-
-const LeftChat = forwardRef<
-	React.ElementRef<'div'> & ChatItemProps,
-	React.ComponentPropsWithoutRef<'div'> & ChatItemProps
->(({ classNames, children, ...props }, ref) => {
-	return (
-		<div className={cn('flex justify-start w-full', classNames?.wrapper || '')} ref={ref} {...props}>
-			<div className={'h-8 w-8 rounded-full pt-5'}>{<Icons.logo className="h-8 w-8 fill-blue-400" />}</div>
-			<div className={cn('flex flex-col gap-1 w-full', classNames?.chatList || '')}>
-				<div className={'h-fit max-w-2xl w-fit w-[inherit] rounded-xl p-5'}>
-					{children}
-				</div>
-			</div>
-		</div>
-	);
-});
-LeftChat.displayName = 'LeftChat';
-
-const RightChat = forwardRef<
-	React.ElementRef<'div'> & ChatItemProps,
-	React.ComponentPropsWithoutRef<'div'> & ChatItemProps
->(({ classNames, children, ...props }, ref) => {
-	const { user } = useAuth();
-
-	return (
-		<div className={cn('flex justify-end gap-2 w-full', classNames?.wrapper || '')} ref={ref} {...props}>
-			<div className={cn('flex flex-col gap-1 w-full items-end', classNames?.chatList || '')}>
-				<div className={'h-fit max-w-xl w-fit rounded-xl p-2'}>
-					{children}
-				</div>
-			</div>
-			<div className={'h-12 w-12 rounded-full bg-gray-800'}>
-				<div className={'w-full h-full flex justify-center items-center'}>
-					{user?.username.substring(0, 2).toUpperCase() || 'User'}
-				</div>
-			</div>
-		</div>
-	);
-});
-RightChat.displayName = 'RightChat';
 
 type ChatMessageProps = {
 	classNames?: {
@@ -122,6 +75,15 @@ export function MessageListRender() {
 
 	return (
 		<div className={'max-w-3xl w-full flex flex-col gap-5 h-fit px-2'} ref={messageWrapperRef}>
+			{messages.length === 0 && (
+				<>
+					<LeftChat />
+					<LeftChat classnames={{
+						wrapper: 'flex-row-reverse',
+						chatList: 'items-end',
+					}} />
+				</>
+			)}
 			{messages.map((message, index) => {
 				return (
 					<ChatMessage
@@ -148,12 +110,11 @@ function InputMessage({ action }: {
 	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
 	const { promptText, setPromptText } = useChatbot();
 	return (
-		<div className={'w-full h-14 h-fit rounded-full rounded-[30px] border border-gray-800  bg-gray-950'}>
+		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800  bg-gray-950'}>
 			<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
 				<AutoResizeQuill
+					isDisabled={false}
 					placeholder={'Type a message'}
-					plainText={promptText}
-					setPlainText={setPromptText}
 					value={promptText}
 					className={cn(
 						'w-full bg-transparent outline-none max-h-52 resize-none text-white',
@@ -161,6 +122,12 @@ function InputMessage({ action }: {
 					)}
 					onContentChange={setPromptText}
 					setIsTooLong={setIsTooLong}
+					event={{
+						onShiftEnter: () => {
+							// console.log(promptText);
+							action.sendMessage(promptText);
+						},
+					}}
 				/>
 				<div
 					className={cn('flex flex-row justify-end items-center gap-2', isTooLong ? 'w-full ' : 'w-fit')}>
@@ -185,14 +152,25 @@ function InputMessage({ action }: {
 }
 
 function ChatSection({ classNames }: ChatSectionProps) {
-	const { sendMessage, isNewSection } = useChatbot();
+	const { sendMessage, isNewSection, isSending } = useChatbot();
 
 	return (
 		<div
 			className={cn(' shadow rounded-2xl p-4 pt-0 pr-0  w-full h-full mx-auto flex flex-col justify-between items-center', classNames?.wrapper || '')}>
 			<div
 				className={' flex flex-col items-center gap-5 overflow-hidden overflow-y-auto w-full h-full pt-10 pb-20'}>
-				{isNewSection ? <LaunchScreen /> : <MessageListRender />}
+				{isNewSection ?
+					isSending ? (
+						<>
+							<LeftChat />
+							<LeftChat classnames={{
+								wrapper: 'flex-row-reverse',
+								chatList: 'items-end',
+							}} />
+						</>
+
+					) : <LaunchScreen />
+					: <MessageListRender />}
 			</div>
 			<div className={'w-full h-fit flex flex-col justify-center items-center relative max-w-3xl pr-4'}>
 				<div className={'w-full h-14 bg-gradient-to-t from-[background-hero] absolute top-[-100%]'}></div>

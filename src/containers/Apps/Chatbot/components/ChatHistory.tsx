@@ -52,54 +52,68 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 	sectionId: string;
 }) => {
 	const router = useRouter();
+	const { updateChatHistory } = useChatbot();
+
 	const [enableEditTile, setEnableEditTile] = React.useState(false);
 	const sectionTitleRef = React.useRef<HTMLInputElement>(null);
 	const [isEditing, setIsEditing] = React.useState(false);
 	const [sectionTitle, setSectionTitle] = React.useState(title);
+	const [isUpdate, setIsUpdate] = React.useState(false);
+
+	const directToSection = (sectionId: string) => {
+		if (!enableEditTile) {
+			router.push(`/feature/chatbot-assistant?id=${sectionId}`);
+		}
+	};
+
+	const updateSectionName = async () => {
+		await updateChatHistory(sectionId, { section_name: sectionTitle });
+	};
+
 	useEffect(() => {
 		if (sectionTitleRef.current) {
-			sectionTitleRef.current.disabled = !isEditing;
-			sectionTitleRef.current.focus();
+			sectionTitleRef.current.type = isEditing ? 'text' : 'button';
+			if (isEditing) {
+				sectionTitleRef.current.focus();
+			} else {
+
+			}
 		}
 	}, [isEditing]);
+
 	return (
 		<div className={'w-full flex justify-between overflow-hidden gap-1 '}>
 			<div
-				className={cn('flex w-full max-w-sm p-2 px-4 rounded-xl gap-2 justify-center items-center hover:bg-gray-800 transition-all duration-300 cursor-pointer', isActive ? 'bg-gray-800 ' : '')}>
-				<div className={'text-white'} onClick={() => {
-					if (!enableEditTile) {
-						router.push(`/feature/chatbot-assistant?id=${sectionId}`);
-					}
-				}}>
-					{startContent || <FiMessageSquare className={'w-4 h-4 font-bold text-gray-400'} />}
-				</div>
-				<div className={'w-full text-start'}>
-					<input
-						className={cn('w-full outline-none bg-inherit text-gray-400', enableEditTile ? '' : 'cursor-pointer')}
-						disabled={true}
-						value={sectionTitle}
-						ref={sectionTitleRef}
-						onClick={() => {
-							if (!enableEditTile) {
-								router.push(`/feature/chatbot-assistant?id=${sectionId}`);
-							}
-						}}
-						onChange={(e) => {
-							if (e.target) {
-							}
-							setSectionTitle(e.target.value);
-						}}
-						onKeyPress={(e) => {
-							if (e.key === 'Enter') {
+				className={cn('flex w-full max-w-sm p-2 px-4 rounded-xl gap-2 justify-between items-center hover:bg-gray-800 transition-all duration-300 cursor-pointer', isActive ? 'bg-gray-800 ' : '')}>
+				<div className={'flex justify-start items-center'}>
+					<div className={'text-white'} onClick={() => directToSection(sectionId)}>
+						{startContent || <FiMessageSquare className={'w-4 h-4 font-bold text-gray-400'} />}
+					</div>
+					<div className={'w-full text-start relative pl-2'} onClick={() => directToSection(sectionId)}>
+						<input
+							className={cn('w-full outline-none bg-inherit text-gray-400 relative', enableEditTile ? '' : 'cursor-pointer')}
+							type={'text'}
+							value={sectionTitle}
+							ref={sectionTitleRef}
+							onChange={(e) => {
+								setSectionTitle(e.target.value);
+							}}
+							onKeyDown={async (e) => {
+								if (e.key === 'Enter') {
+									if (isEditing) {
+										updateSectionName();
+									}
+									setEnableEditTile(false);
+									setIsEditing(false);
+								}
+							}}
+							onBlur={() => {
+
 								setEnableEditTile(false);
 								setIsEditing(false);
-							}
-						}}
-						onBlur={() => {
-							setEnableEditTile(false);
-							setIsEditing(false);
-						}}
-					/>
+							}}
+						/>
+					</div>
 				</div>
 				<div className={'text-white'} onClick={() => setEnableEditTile(prev => !prev)}>
 					{endContent || (
@@ -269,13 +283,10 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 						</div>
 					</div>
 				</div>
-				<div className={'w-full h-28 bg-gray-800 rounded-xl p-3'}>
+				<div className={'w-full h-28 bg-gray-900 rounded-xl p-3'}>
 					<DownloadModal />
 				</div>
 			</div>
-			{/*<Card classNames={{*/}
-			{/*	wrapper: cn(chatHistoryCollapsed ? 'h-0 w-0 invisible hidden' : ' max-w-sm mb-5 ', 'transition-all'),*/}
-			{/*}} />*/}
 		</div>
 	);
 }

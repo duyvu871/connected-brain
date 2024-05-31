@@ -8,9 +8,9 @@ interface ChatSectionProps {
 
 };
 
-const LeftChat = ({
-										classnames,
-									}: {
+export const LeftChat = ({
+													 classnames,
+												 }: {
 	classnames?: {
 		wrapper?: string;
 		chatList?: string;

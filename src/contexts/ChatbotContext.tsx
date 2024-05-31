@@ -3,13 +3,19 @@ import React, { createContext, useCallback, useContext, useLayoutEffect, useStat
 import store from '@/redux/store';
 import { deleteMessage, insertMessage as InsertMessageAction, loadChat } from '@/redux/actions/ChatbotAtion';
 // import { ObjectId } from 'mongodb';
-import { CreateNewSectionResponse, SendMessageRequest } from 'types/apps/chatbot/api.type';
+import {
+	CreateNewSectionResponse,
+	SendMessageRequest,
+	UpdateSectionRequest,
+	UpdateSectionResponse,
+} from 'types/apps/chatbot/api.type';
 import { MessageHistoryType, SectionMessageGeneratedType } from 'types/features/Chatbot';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 // import { Session } from 'next-auth';
 import { UserSessionPayload } from 'types/user.type';
 import { APIs } from '@/utils/route-list';
+import { ObjectId } from 'mongodb';
 
 interface Message {
 	id: string;
@@ -25,10 +31,11 @@ interface ChatbotContextType {
 	sections: SectionMessageGeneratedType[];
 	isNewSection: boolean;
 	isSending?: boolean;
-	sendMessage: (text: string) => void;
+	sendMessage: (text: string) => Promise<void>;
 	clearMessages: () => void;
 	insertMessage: (text: string, sender: 'user' | 'assistant', chat_id: string) => void;
-	createSectionMessage: (message: string) => void;
+	createSectionMessage: (message: string) => Promise<void>;
+	updateChatHistory: (chat_id: string, update_data: UpdateSectionRequest['update_data']) => Promise<UpdateSectionResponse['data']>;
 }
 
 const defaultContext: ChatbotContextType = {
@@ -40,14 +47,19 @@ const defaultContext: ChatbotContextType = {
 	isSending: false,
 	messages: [],
 	sections: [],
-	sendMessage: () => {
+	sendMessage: async () => {
 	},
 	clearMessages: () => {
 	},
 	insertMessage: () => {
 	},
-	createSectionMessage: () => {
+	createSectionMessage: async () => {
 	},
+	updateChatHistory: async () => ({
+		insertedId: '',
+		modifiedData: {},
+		error: '',
+	} as UpdateSectionResponse['data']),
 };
 
 const ChatbotContext = createContext<ChatbotContextType | null>(defaultContext);
@@ -66,7 +78,21 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 
 	const [isNewSection, setIsNewSection] = useState<boolean>(false);
 	const [isSending, setIsSending] = useState<boolean>(false);
-	const [isLoaded, setIsLoaded] = useState<boolean>(false);
+	const [isLoadMessage, setIsLoadMessage] = useState<boolean>(false);
+
+	const clearMessages = () => {
+		store.dispatch(loadChat({
+			messages: [],
+		}));
+	};
+
+	const insertMessage = (text: string, sender: 'user' | 'assistant', chat_id: string) => {
+		store.dispatch(InsertMessageAction(text, sender, chat_id as string));
+	};
+
+	const updateMessage = (text: string, sender: 'user' | 'assistant', chat_id: string) => {
+		store.dispatch(InsertMessageAction(text, sender, chat_id as string));
+	};
 
 	const sendMessage = async (text: string) => {
 		if (!chat_id) {
@@ -96,20 +122,6 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		setNewMessageId(data._id.toString());
 	};
 
-	const clearMessages = () => {
-		store.dispatch(loadChat({
-			messages: [],
-		}));
-	};
-
-	const insertMessage = (text: string, sender: 'user' | 'assistant', chat_id: string) => {
-		store.dispatch(InsertMessageAction(text, sender, chat_id as string));
-	};
-
-	const updateMessage = (text: string, sender: 'user' | 'assistant', chat_id: string) => {
-		store.dispatch(InsertMessageAction(text, sender, chat_id as string));
-	};
-
 	const getSections = useCallback(async (user_id: string) => {
 		if (!user_id) {
 			console.error('User id not found');
@@ -128,6 +140,7 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		insertMessage(message, 'user', 'preview-created-user');
 		insertMessage('Creating new section...', 'assistant', 'preview-created-assistant');
 		setIsSending(true);
+
 		const response = await fetch(APIs.chatbot.createSection, {
 			method: 'POST',
 			headers: {
@@ -152,6 +165,14 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		deleteMessage('preview-created-assistant');
 		insertMessage(data.message_generated, 'assistant', newChatId);
 		setNewMessageId(newChatId);
+		setSections((prevSections) => [{
+			_id: data._id as unknown as ObjectId,
+			section_name: data.section_name,
+			user_id: user._id as unknown as ObjectId,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			message_generated: [''] as unknown as ObjectId[],
+		}, ...prevSections]);
 	};
 
 	const getChatHistory = useCallback(async (chat_id: string) => {
@@ -174,6 +195,25 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		}));
 	}, [userSession]);
 
+	const updateChatHistory = async (chat_id: string, update_data: UpdateSectionRequest['update_data']) => {
+		const response = await fetch(APIs.chatbot.updateSection, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				update_data,
+				section_id: chat_id,
+			}),
+		});
+		const responseData = (await response.json()) as UpdateSectionResponse;
+		if (response.status !== 200) {
+			console.error(responseData.error);
+			return;
+		}
+		return responseData.data;
+	};
+
 	useLayoutEffect(() => {
 		setUser(userSession);
 	}, [userSession]);
@@ -190,20 +230,24 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 				setIsNewSection(true);
 				clearMessages();
 			}
-			(async () => {
-				const data = await getSections(userSession._id);
-				if (!data) {
-					console.error('Failed to get sections');
-					return;
-				}
-				setSections(data.data);
-			})();
 		}
 	}, [chat_id, userSession]);
+
+	useLayoutEffect(() => {
+		if (userSession) {
+			(async () => {
+				const data = await getSections(userSession._id);
+				if (data) {
+					setSections(data.data);
+				}
+			})();
+		}
+	}, [userSession]);
 
 	return (
 		<ChatbotContext.Provider
 			value={{
+				updateChatHistory,
 				newMessageId,
 				promptText,
 				setPromptText,

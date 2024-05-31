@@ -3,6 +3,7 @@ const APIs = {
 	signUp: '/api/v1/auth/sign-up',
 	chatbot: {
 		createSection: '/api/v1/feature/chatbot/create-new-section',
+		updateSection: '/api/v1/feature/chatbot/update-section',
 	},
 };
 

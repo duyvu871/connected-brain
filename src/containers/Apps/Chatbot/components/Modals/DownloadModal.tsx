@@ -9,9 +9,7 @@ const DownloadModalTrigger: React.FC<{}> = () => {
 	return (
 		<div className={'flex justify-center items-center'}>
 			<div
-				className={'flex justify-center items-center p-2 text-white border border-gray-600 rounded-xl transition-all hover:text-gray-800 hover:' +
-					'.' +
-					''}>
+				className={'flex justify-center items-center p-2 text-white border border-gray-600 rounded-xl transition-all hover:text-gray-800 hover:bg-gray-200'}>
 				<SlCloudDownload className={'text-lg'} />
 			</div>
 		</div>

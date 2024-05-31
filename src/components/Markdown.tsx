@@ -52,7 +52,7 @@ function Markdown({ children, isTyping }: MarkdownProps) {
 	return (
 		<ReactMarkdown className={'markdown-body bg-opacity-0 text-gray-600'}
 									 remarkPlugins={[remarkGfm]}>
-			{displayResponse + (!completedTyping && ' *')}
+			{displayResponse}
 		</ReactMarkdown>
 	);
 }

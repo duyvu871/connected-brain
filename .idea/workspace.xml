@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="" />
+    <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
+      <change afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/delete-section/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/update-section/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/update-section/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Markdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Markdown.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SkeletonLoad/ChatSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SkeletonLoad/ChatSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/DownloadModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/DownloadModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Textarea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Textarea.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/quill-custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/quill-custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/apps/chatbot/api.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/apps/chatbot/api.type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/route-list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/route-list.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -161,7 +176,7 @@
       <workItem from="1716647193627" duration="44969000" />
       <workItem from="1716979870646" duration="17119000" />
       <workItem from="1717052421972" duration="18594000" />
-      <workItem from="1717133669620" duration="578000" />
+      <workItem from="1717133669620" duration="18026000" />
     </task>
     <servers />
   </component>
@@ -173,11 +188,27 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/product" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixup! update" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixup! update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
