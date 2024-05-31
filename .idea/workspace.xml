@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
+        <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;duyvu871&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="product" />
+                    <option name="lastUsedInstant" value="1717133895" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/duyvu871/connected-brain.git&quot;,
+    &quot;accountId&quot;: &quot;60155f20-6ac9-46e9-9e85-10c14e0a057b&quot;
+  }
+}</component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2fXY47V16BeFOyM8wgP33V9y1Rl" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;product&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/CODE/connected-brain/front-end/src/containers/Apps/Chatbot/components&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;F:\\CODE\\connected-brain\\front-end\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\src\containers\Apps\Chatbot\components" />
+      <recent name="F:\CODE\connected-brain\front-end\src\app" />
+      <recent name="F:\CODE\connected-brain\front-end\src\lib\llms" />
+      <recent name="F:\CODE\connected-brain\front-end\src\services\Chatbot" />
+      <recent name="F:\CODE\connected-brain\front-end\src\redux\store" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\public\graphics" />
+      <recent name="F:\CODE\connected-brain\front-end\public" />
+      <recent name="F:\CODE\connected-brain\front-end\src\app\(auth)" />
+      <recent name="F:\CODE\connected-brain\front-end\public\preview-images" />
+      <recent name="F:\CODE\connected-brain\front-end\src\styles" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="" />
+      <created>1713948697120</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713948697120</updated>
+      <workItem from="1713948698471" duration="15915000" />
+      <workItem from="1713975315386" duration="26000" />
+      <workItem from="1713975353970" duration="5901000" />
+      <workItem from="1713981531714" duration="3580000" />
+      <workItem from="1714013331724" duration="5345000" />
+      <workItem from="1714019470677" duration="29804000" />
+      <workItem from="1714100303098" duration="35588000" />
+      <workItem from="1714298307612" duration="4069000" />
+      <workItem from="1714616756310" duration="4156000" />
+      <workItem from="1714625091360" duration="800000" />
+      <workItem from="1714636287261" duration="27746000" />
+      <workItem from="1714811756450" duration="53186000" />
+      <workItem from="1714965552190" duration="23759000" />
+      <workItem from="1715053199718" duration="70910000" />
+      <workItem from="1715365224055" duration="4143000" />
+      <workItem from="1715617894717" duration="1554000" />
+      <workItem from="1715650511318" duration="621000" />
+      <workItem from="1715760742474" duration="547000" />
+      <workItem from="1715847215637" duration="920000" />
+      <workItem from="1715848366237" duration="585000" />
+      <workItem from="1715913887898" duration="974000" />
+      <workItem from="1715940231854" duration="2477000" />
+      <workItem from="1716014265958" duration="43670000" />
+      <workItem from="1716303286390" duration="8941000" />
+      <workItem from="1716321901606" duration="26002000" />
+      <workItem from="1716386644443" duration="1228000" />
+      <workItem from="1716388031041" duration="329000" />
+      <workItem from="1716388690574" duration="2401000" />
+      <workItem from="1716519837913" duration="1784000" />
+      <workItem from="1716647193627" duration="44969000" />
+      <workItem from="1716979870646" duration="17119000" />
+      <workItem from="1717052421972" duration="18594000" />
+      <workItem from="1717133669620" duration="285000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Navbar/NavbarComponent.tsx</url>
+          <line>329</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
