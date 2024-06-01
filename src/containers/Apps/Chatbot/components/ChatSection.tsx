@@ -11,10 +11,12 @@ import Tooltip from '@/components/Tooltip';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/reducers';
 import { useChatbot } from '@/contexts/ChatbotContext';
-import { useWindowScroll } from '@uidotdev/usehooks';
 import LaunchScreen from '@/containers/Apps/Chatbot/components/LaunchScreen';
 import AutoResizeQuill from '@/containers/Apps/Chatbot/components/Textarea';
 import { LeftChat } from '@/components/SkeletonLoad/ChatSection';
+import { useWindowScroll } from '@uidotdev/usehooks';
+import { motion } from 'framer-motion';
+import { IoIosArrowDown } from 'react-icons/io';
 
 interface ChatSectionProps {
 	classNames?: {
@@ -65,52 +67,125 @@ ChatMessage.displayName = 'ChatMessage';
 
 export function MessageListRender() {
 	const messages = useSelector((state: RootState) => state.chat.messages);
-	const { newMessageId } = useChatbot();
-	const messageWrapperRef = React.useRef<HTMLDivElement>(null);
+	const { newMessageId, isNewSection, isSending } = useChatbot();
 	const [{ x, y }, scrollTo] = useWindowScroll();
 
+	const [isShowScrollTo, setIsShowScrollTo] = React.useState<boolean>(false);
+
+	const messageWrapperRef = React.useRef<HTMLDivElement & ChatMessageProps>(null);
+	const scrollRef = React.useRef<HTMLDivElement>(null);
+
+	const scrollToMessage = () => {
+		if (messageWrapperRef.current) {
+			console.log(messageWrapperRef.current);
+			const messageWrapper = messageWrapperRef.current;
+			messageWrapper.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
+
+	const checkScroll = () => {
+		const scrollHeight = scrollRef.current.getBoundingClientRect().height;
+		const lastMessageY = messageWrapperRef.current?.getBoundingClientRect().y;
+		if (messages.length === 0) return;
+		if (lastMessageY && lastMessageY < scrollHeight) {
+			setIsShowScrollTo(false);
+		} else {
+			setIsShowScrollTo(true);
+		}
+	};
+
 	useEffect(() => {
-		scrollTo({ left: 0, top: -messageWrapperRef.current.offsetTop, behavior: 'smooth' });
+
+		const scrollEl = scrollRef.current;
+		if (scrollEl) {
+			scrollEl.addEventListener('scroll', checkScroll);
+		}
+		return () => {
+			scrollEl.removeEventListener('scroll', checkScroll);
+		};
+	}, []);
+
+	useEffect(() => {
+
 	}, [messages]);
 
 	return (
-		<div className={'max-w-3xl w-full flex flex-col gap-5 h-fit px-2'} ref={messageWrapperRef}>
-			{messages.length === 0 && (
-				<>
-					<LeftChat />
-					<LeftChat classnames={{
-						wrapper: 'flex-row-reverse',
-						chatList: 'items-end',
-					}} />
-				</>
-			)}
-			{messages.map((message, index) => {
-				return (
-					<ChatMessage
-						key={index}
-						role={message.role}
-						classNames={{
-							wrapper: cn('flex justify-start w-full', message.role === 'assistant' ? 'items-start' : 'items-start flex-row-reverse'),
-							chatList: message.role === 'assistant' ? 'items-start' : 'items-end',
-						}}
-					>
-						<Markdown>{message.message}</Markdown>
-					</ChatMessage>
-				);
-			})}
-		</div>
+		<>
+			<div
+				className={' flex flex-col items-center gap-5 overflow-hidden overflow-y-auto w-full h-full pt-10 pb-20 relative'}
+				ref={scrollRef}>
+				{isNewSection ?
+					isSending ? (
+						<>
+							<LeftChat />
+							<LeftChat classnames={{
+								wrapper: 'flex-row-reverse',
+								chatList: 'items-end',
+							}} />
+						</>
+					) : <LaunchScreen />
+					: (
+						<div className={'max-w-3xl w-full flex flex-col justify-center gap-5 h-fit px-2 relative'}>
+							{messages.length === 0 && (
+								<>
+									<LeftChat />
+									<LeftChat classnames={{
+										wrapper: 'flex-row-reverse',
+										chatList: 'items-end',
+									}} />
+								</>
+							)}
+							{messages.map((message, index) => {
+								return (
+									<ChatMessage
+										key={index}
+										role={message.role}
+										classNames={{
+											wrapper: cn('flex justify-start w-full', message.role === 'assistant' ? 'items-start' : 'items-start flex-row-reverse'),
+											chatList: message.role === 'assistant' ? 'items-start' : 'items-end',
+										}}
+										id={message.id}
+										ref={index === messages.length - 1 ? messageWrapperRef : null}
+									>
+										<Markdown>{message.message}</Markdown>
+									</ChatMessage>
+								);
+							})}
+						</div>
+					)}
+			</div>
+			<motion.div className={'absolute bottom-0 cursor-pointer z-[100]'} initial={'rest'} animate={{
+				y: isShowScrollTo ? -120 : -50,
+				opacity: isShowScrollTo ? 1 : 0,
+			}} variants={{
+				rest: {
+					y: -50,
+				},
+			}} transition={{
+				type: 'spring',
+				damping: 10,
+				stiffness: 100,
+			}}>
+				<div className={'p-2 rounded-full bg-gray-700/40 backdrop-blur border border-gray-600'}
+						 onClick={scrollToMessage}>
+					<IoIosArrowDown />
+				</div>
+			</motion.div>
+		</>
 	);
 }
 
-function InputMessage({ action }: {
+function InputMessage({
+												action,
+											}: {
 	action?: {
 		sendMessage: (message: string) => void;
-	}
+	};
 }) {
 	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
 	const { promptText, setPromptText } = useChatbot();
 	return (
-		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800  bg-gray-950'}>
+		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
 			<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
 				<AutoResizeQuill
 					isDisabled={false}
@@ -152,26 +227,12 @@ function InputMessage({ action }: {
 }
 
 function ChatSection({ classNames }: ChatSectionProps) {
-	const { sendMessage, isNewSection, isSending } = useChatbot();
+	const { sendMessage } = useChatbot();
 
 	return (
 		<div
 			className={cn(' shadow rounded-2xl p-4 pt-0 pr-0  w-full h-full mx-auto flex flex-col justify-between items-center', classNames?.wrapper || '')}>
-			<div
-				className={' flex flex-col items-center gap-5 overflow-hidden overflow-y-auto w-full h-full pt-10 pb-20'}>
-				{isNewSection ?
-					isSending ? (
-						<>
-							<LeftChat />
-							<LeftChat classnames={{
-								wrapper: 'flex-row-reverse',
-								chatList: 'items-end',
-							}} />
-						</>
-
-					) : <LaunchScreen />
-					: <MessageListRender />}
-			</div>
+			<MessageListRender />
 			<div className={'w-full h-fit flex flex-col justify-center items-center relative max-w-3xl pr-4'}>
 				<div className={'w-full h-14 bg-gradient-to-t from-[background-hero] absolute top-[-100%]'}></div>
 				<InputMessage action={{ sendMessage }} />

@@ -67,8 +67,8 @@ const ChatbotContext = createContext<ChatbotContextType | null>(defaultContext);
 function ChatbotProvider({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
 	const params = useSearchParams();
-	const chat_id = params.get('id');
 	const { user: userSession } = useAuth();
+	const [chat_id, setChatId] = useState<string>('');
 	const [user, setUser] = useState<UserSessionPayload>(userSession);
 	// const { _id, role, username, uid } = user;
 	const [messages, setMessages] = useState<Message[]>([]);
@@ -243,6 +243,13 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 			})();
 		}
 	}, [userSession]);
+
+	useLayoutEffect(() => {
+		if (params) {
+			// console.log(params.get('id'));
+			setChatId(params.get('id'));
+		}
+	}, [params]);
 
 	return (
 		<ChatbotContext.Provider

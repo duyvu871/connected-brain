@@ -85,13 +85,14 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 		<div className={'w-full flex justify-between overflow-hidden gap-1 '}>
 			<div
 				className={cn('flex w-full max-w-sm p-2 px-4 rounded-xl gap-2 justify-between items-center hover:bg-gray-800 transition-all duration-300 cursor-pointer', isActive ? 'bg-gray-800 ' : '')}>
-				<div className={'flex justify-start items-center'}>
+				<div className={'flex justify-start items-center w-full'}>
 					<div className={'text-white'} onClick={() => directToSection(sectionId)}>
 						{startContent || <FiMessageSquare className={'w-4 h-4 font-bold text-gray-400'} />}
 					</div>
-					<div className={'w-full text-start relative pl-2'} onClick={() => directToSection(sectionId)}>
+					<div className={'w-full text-start relative pl-2'}
+							 onClick={() => directToSection(sectionId)}>
 						<input
-							className={cn('w-full outline-none bg-inherit text-gray-400 relative', enableEditTile ? '' : 'cursor-pointer')}
+							className={cn('w-full outline-none bg-inherit text-gray-400 relative text-start', enableEditTile ? '' : 'cursor-pointer')}
 							type={'text'}
 							value={sectionTitle}
 							ref={sectionTitleRef}
@@ -102,15 +103,17 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 								if (e.key === 'Enter') {
 									if (isEditing) {
 										updateSectionName();
+										setEnableEditTile(false);
+										setIsEditing(false);
 									}
-									setEnableEditTile(false);
-									setIsEditing(false);
 								}
 							}}
 							onBlur={() => {
-
-								setEnableEditTile(false);
-								setIsEditing(false);
+								if (isEditing) {
+									updateSectionName();
+									setEnableEditTile(false);
+									setIsEditing(false);
+								}
 							}}
 						/>
 					</div>
@@ -135,7 +138,10 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 					<Tooltip title={'Edit'}>
 						<div
 							className={'w-full h-full flex justify-center items-center hover:text-gray-200 transition-all border-r border-gray-800'}>
-							<HiPencil className={'w-6 h-6'} onClick={() => setIsEditing(true)} />
+							<HiPencil className={'w-6 h-6'} onClick={() => {
+								setIsEditing(true);
+								setEnableEditTile(true);
+							}} />
 						</div>
 					</Tooltip>
 					<Tooltip title={'Delete session'}>
