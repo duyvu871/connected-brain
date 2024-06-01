@@ -57,11 +57,11 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 	const [enableEditTile, setEnableEditTile] = React.useState(false);
 	const sectionTitleRef = React.useRef<HTMLInputElement>(null);
 	const [isEditing, setIsEditing] = React.useState(false);
-	const [sectionTitle, setSectionTitle] = React.useState(title);
-	const [isUpdate, setIsUpdate] = React.useState(false);
+	const [sectionTitle, setSectionTitle] = React.useState<string>(title.slice(0, 20) + (title.length > 20 ? '...' : ''));
+	const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
 
 	const directToSection = (sectionId: string) => {
-		if (!enableEditTile) {
+		if (!isEditing) {
 			router.push(`/feature/chatbot-assistant?id=${sectionId}`);
 		}
 	};
@@ -72,7 +72,8 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 
 	useEffect(() => {
 		if (sectionTitleRef.current) {
-			sectionTitleRef.current.type = isEditing ? 'text' : 'button';
+			sectionTitleRef.current.type = isEditing ? 'text' : 'text';
+			sectionTitleRef.current.value = (isEditing ? title : title.slice(0, 20) + (title.length > 20 ? '...' : ''));
 			if (isEditing) {
 				sectionTitleRef.current.focus();
 			} else {
@@ -92,7 +93,8 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 					<div className={'w-full text-start relative pl-2'}
 							 onClick={() => directToSection(sectionId)}>
 						<input
-							className={cn('w-full outline-none bg-inherit text-gray-400 relative text-start', enableEditTile ? '' : 'cursor-pointer')}
+							className={cn('w-full outline-none bg-inherit text-gray-400 relative text-start', isEditing ? '' : 'cursor-pointer')}
+							readOnly={!isEditing}
 							type={'text'}
 							value={sectionTitle}
 							ref={sectionTitleRef}
@@ -155,9 +157,33 @@ const ChatHistoryItem = ({ title, startContent, endContent, isActive = false, se
 	);
 };
 
-function ChatHistory({ classnames }: ChatHistoryProps) {
+function ChatSectionList({ sections, chatHistoryCollapsed }: {
+	sections: SectionMessageGeneratedType[];
+	chatHistoryCollapsed: boolean
+}) {
 	const params = useSearchParams();
 	const chat_id = params.get('id');
+
+	return (
+		<div
+			className={cn('w-full max-h-96 block gap-2 transition-all overflow-x-hidden overflow-y-auto', chatHistoryCollapsed ? 'w-0 h-0 overflow-hidden' : '')}>
+			<div className={'h-full'}>
+				{sections.map((message, index) => (
+					<div key={'chat-history-' + message._id.toString()}
+							 className={'flex flex-col m-0 rounded-xl w-full h-10 mt-1 mr-4'}>
+						<ChatHistoryItem
+							title={message.section_name}
+							isActive={chat_id && (message._id.toString() === chat_id)}
+							sectionId={message._id.toString()} />
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+
+function ChatHistory({ classnames }: ChatHistoryProps) {
+
 	const router = useRouter();
 	const { sections } = useChatbot();
 	const [CHRef, animate] = useAnimate(); // CHRef: Chat History Ref
@@ -170,7 +196,6 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 
 	const [searchValue, setSearchValue] = React.useState('');
 	const searchRef = React.useRef<HTMLInputElement>(null);
-
 
 	const filterItems = (value: string) => {
 		const filteredItems = sectionRendered.filter(section => section.section_name.toLowerCase().includes(value.toLowerCase()));
@@ -253,7 +278,7 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 						<Tooltip title={'Create session'}>
 							<div
 								className={cn(
-									'relative w-full h-10 bg-gray-800 flex justify-center items-center rounded-xl transition-all duration-300 cursor-pointer',
+									'relative w-full h-10 bg-gray-800 flex justify-center items-center rounded-xl transition-all duration-[300] cursor-pointer',
 									'hover:bg-gray-700',
 									chatHistoryCollapsed ? 'w-[88px] p-0' : '',
 								)}
@@ -267,22 +292,12 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 						<div className={cn('w-full px-2 pt-2 transition-all', chatHistoryCollapsed ? 'w-0 invisible' : '')}>
 							<span className={'font-semibold'}>Recent</span>
 						</div>
-						<div
-							className={cn('w-full max-h-96 block gap-2 transition-all overflow-x-hidden overflow-y-auto', chatHistoryCollapsed ? 'w-0 h-0 overflow-hidden' : '')}>
-							<div className={'h-full'}>
-								{sectionRendered.map((message, index) => (
-									<div key={'chat-history-' + index} className={'flex flex-col m-0 rounded-xl w-full h-10 mt-1 mr-4'}>
-										<ChatHistoryItem
-											title={message.section_name}
-											isActive={chat_id && (message._id.toString() === chat_id)}
-											sectionId={message._id.toString()} />
-									</div>
-								))}
-							</div>
-						</div>
+
+						<ChatSectionList sections={sectionRendered} chatHistoryCollapsed={chatHistoryCollapsed} />
+
 						<div className={'w-full h-fit p-2 flex justify-center items-center'}>
 							<button
-								className={cn('text-white bg-gray-800 rounded-xl p-2 transition-all duration-300 cursor-pointer', chatHistoryCollapsed ? 'w-0 h-0 invisible' : '')}
+								className={cn('text-white bg-gray-800 rounded-xl p-2 transition-all duration-300 cursor-pointer', chatHistoryCollapsed ? 'w-0 h-0 hidden' : '')}
 								onClick={() => setShowMore(prev => !prev)}>
 								{showMore ? <TfiAngleUp /> : <TfiAngleDown />}
 							</button>

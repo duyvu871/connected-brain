@@ -165,6 +165,7 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		deleteMessage('preview-created-assistant');
 		insertMessage(data.message_generated, 'assistant', newChatId);
 		setNewMessageId(newChatId);
+		// console.log(data);
 		setSections((prevSections) => [{
 			_id: data._id as unknown as ObjectId,
 			section_name: data.section_name,
@@ -219,6 +220,13 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 	}, [userSession]);
 
 	useLayoutEffect(() => {
+		if (params) {
+			// console.log(params.get('id'));
+			setChatId(params.get('id'));
+		}
+	}, [params]);
+
+	useLayoutEffect(() => {
 		if (userSession) {
 			if (chat_id) {
 				clearMessages();
@@ -243,13 +251,6 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 			})();
 		}
 	}, [userSession]);
-
-	useLayoutEffect(() => {
-		if (params) {
-			// console.log(params.get('id'));
-			setChatId(params.get('id'));
-		}
-	}, [params]);
 
 	return (
 		<ChatbotContext.Provider

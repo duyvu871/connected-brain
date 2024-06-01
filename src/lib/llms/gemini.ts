@@ -8,6 +8,81 @@ import {
 } from '@google/generative-ai';
 import { initAI } from './init';
 
+export type MimeTypes =
+	'image/png'
+	| 'image/jpeg'
+	| 'image/gif'
+	| 'image/webp'
+	| 'image/svg+xml'
+	| 'image/bmp'
+	| 'image/tiff'
+	| 'image/x-icon'
+	| 'image/vnd.microsoft.icon'
+	| 'image/vnd.wap.wbmp'
+	| 'image/heic'
+	| 'image/heif'
+	| 'image/heif-sequence'
+	| 'image/heic-sequence'
+	| 'image/hej2'
+	| 'image/avif'
+	| 'image/avif-sequence'
+	| 'image/jxl'
+	| 'image/jxl-sequence'
+	| 'image/jpm'
+	| 'image/jpm-sequence'
+	| 'image/jpg'
+	| 'image/jpm'
+	| 'image/jpm-sequence'
+	| 'image/jpx'
+	| 'image/jpx-sequence'
+	| 'image/jpg'
+	| 'image/jpg-sequence'
+	| 'image/jpeg'
+	| 'image/jpeg-sequence'
+	| 'image/png'
+	| 'image/png-sequence'
+	| 'image/webp'
+	| 'image/webp-sequence'
+	| 'image/gif'
+	| 'image/gif-sequence'
+	| 'image/svg+xml'
+	| 'image/svg+xml-sequence'
+	| 'image/bmp'
+	| 'image/bmp-sequence'
+	| 'image/tiff'
+	| 'image/tiff-sequence'
+	| 'image/x-icon'
+	| 'image/x-icon-sequence'
+	| 'image/vnd.microsoft.icon'
+	| 'image/vnd.microsoft.icon-sequence'
+	| 'image/vnd.wap.wbmp'
+	| 'image/vnd.wap.wbmp-sequence'
+	| 'image/heic'
+	| 'image/heic-sequence'
+	| 'image/heif'
+	| 'image/heif-sequence'
+	| 'image/heif-sequence'
+	| 'image/heic-sequence'
+	| 'image/hej2'
+	| 'image/hej2-sequence'
+	| 'image/avif'
+	| 'image/avif-sequence'
+	| 'image/jxl'
+	| 'image/jxl-sequence'
+	| 'image/jpm'
+	| 'image/jpm-sequence'
+	| 'image/jpg'
+	| 'image/jpg-sequence'
+	| 'image/jpm'
+	| 'image/jpm-sequence'
+	| 'image/jpx'
+	| 'image/jpx-sequence'
+	| 'image/jpg'
+	| 'image/jpg-sequence'
+	| 'image/jpeg'
+	| 'image/jpeg-sequence';
+
+
 export class GeminiChatService {
 	private genAI: GoogleGenerativeAI;
 	private model: any;
@@ -54,7 +129,29 @@ export class GeminiChatService {
 			history: passInitPrompt ? [initMessage, ...history] : history,
 		});
 
+		// chatSession.
+
 		const result = await chatSession.sendMessage(message);
 		return result.response.text();
+	}
+
+	/**
+	 * Generate a message from a prompt
+	 * @param content base64 encoded asset
+	 * @param mimeType mime type of the asset
+	 * @returns
+	 */
+	public fileToGenerativePath(content: string, mimeType: MimeTypes): {
+		inlineData: {
+			data: string;
+			mimeType: MimeTypes;
+		};
+	} {
+		return {
+			inlineData: {
+				data: content,
+				mimeType,
+			},
+		};
 	}
 }

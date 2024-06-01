@@ -17,6 +17,8 @@ import { LeftChat } from '@/components/SkeletonLoad/ChatSection';
 import { useWindowScroll } from '@uidotdev/usehooks';
 import { motion } from 'framer-motion';
 import { IoIosArrowDown } from 'react-icons/io';
+import Copy from '@/components/CopyToClipBoard';
+import markdownToTxt from 'markdown-to-txt';
 
 interface ChatSectionProps {
 	classNames?: {
@@ -31,10 +33,11 @@ type ChatMessageProps = {
 	};
 	children?: React.ReactNode;
 	role?: 'assistant' | 'user'; // Add a prop for message role
+	content?: string;
 };
 
 const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React.ComponentPropsWithoutRef<'div'> & ChatMessageProps>(
-	({ classNames, children, role, ...props }, ref) => {
+	({ classNames, children, role, content, ...props }, ref) => {
 		const isAssistant = role === 'assistant';
 		const messageWrapperClass = cn('flex justify-start w-full', classNames?.wrapper || '');
 		const messageListClass = cn('flex flex-col gap-1 w-full', classNames?.chatList || '');
@@ -54,7 +57,17 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 				)}
 				<div className={messageListClass}>
 					<div className={'h-fit max-w-2xl w-fit w-[inherit] rounded-xl p-5'}>
-						{children}
+						<Markdown>{content}</Markdown>
+						{/*{children}*/}
+					</div>
+					<div className={'w-full flex justify-start items-center'}>
+						{isAssistant && (
+							<Tooltip title={'Copy'}>
+								<Copy text={markdownToTxt(content)} childrenProps={{
+									className: 'p-2 rounded-full bg-gray-600 cursor-pointer',
+								}} />
+							</Tooltip>
+						)}
 					</div>
 				</div>
 			</div>
@@ -146,9 +159,8 @@ export function MessageListRender() {
 										}}
 										id={message.id}
 										ref={index === messages.length - 1 ? messageWrapperRef : null}
-									>
-										<Markdown>{message.message}</Markdown>
-									</ChatMessage>
+										content={message.message}
+									/>
 								);
 							})}
 						</div>
@@ -166,7 +178,7 @@ export function MessageListRender() {
 				damping: 10,
 				stiffness: 100,
 			}}>
-				<div className={'p-2 rounded-full bg-gray-700/40 backdrop-blur border border-gray-600'}
+				<div className={'p-2 rounded-full bg-gray-700/70 backdrop-blur border border-gray-600'}
 						 onClick={scrollToMessage}>
 					<IoIosArrowDown />
 				</div>
