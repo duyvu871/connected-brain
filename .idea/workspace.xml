@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
-      <change afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/download-history/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/CopyToClipBoard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Tooltip/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Tooltip/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/DownloadModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/DownloadModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/ModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/llms/gemini.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/gemini.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/download-history/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/download-history/route.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +166,7 @@
       <workItem from="1717052421972" duration="18594000" />
       <workItem from="1717133669620" duration="19016000" />
       <workItem from="1717227014713" duration="76000" />
-      <workItem from="1717227144727" duration="19544000" />
+      <workItem from="1717227144727" duration="19951000" />
     </task>
     <servers />
   </component>

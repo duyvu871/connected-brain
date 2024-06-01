@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
 		const dataFormatted = response.map((message) => {
 			return `[${message.role}]: ${markdownToTxt(message.message)}`;
-		}).join('\n');
+		}).join('\n\n');
 		console.log(dataFormatted);
 
 		const buffer = Buffer.from(dataFormatted, 'utf-8');
