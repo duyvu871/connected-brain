@@ -103,7 +103,7 @@ export function MessageListRender() {
 		return () => {
 			scrollEl.removeEventListener('scroll', checkScroll);
 		};
-	}, []);
+	}, [checkScroll]);
 
 	useEffect(() => {
 
