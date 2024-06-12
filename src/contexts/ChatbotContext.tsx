@@ -148,9 +148,9 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 
 	const createSectionMessage = async (message: string) => {
 		insertMessage(message, 'user', 'preview-created-user');
-		insertMessage('Creating new section...', 'assistant', 'preview-created-assistant');
+		insertMessage(NewChatMessageEnum.NEW_MESSAGE, 'assistant', 'preview-created-assistant');
 		setIsSending(true);
-
+		setIsNewSection(false);
 		const response = await fetch(APIs.chatbot.createSection, {
 			method: 'POST',
 			headers: {

@@ -7,6 +7,7 @@
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +173,7 @@
       <workItem from="1717363375153" duration="1294000" />
       <workItem from="1717498064039" duration="588000" />
       <workItem from="1717581753712" duration="284000" />
-      <workItem from="1717755975478" duration="42750000" />
+      <workItem from="1717755975478" duration="43589000" />
     </task>
     <servers />
   </component>

@@ -182,15 +182,16 @@ export function MessageListRender() {
 				className={' flex flex-col items-center gap-5 overflow-hidden overflow-y-auto w-full h-full pt-10 pb-20 relative'}
 				ref={scrollRef}>
 				{isNewSection ?
-					isSending ? (
-						<>
-							<LeftChat />
-							<LeftChat classnames={{
-								wrapper: 'flex-row-reverse',
-								chatList: 'items-end',
-							}} />
-						</>
-					) : <LaunchScreen />
+					// isSending ? (
+					// 	<>
+					// 		<LeftChat />
+					// 		<LeftChat classnames={{
+					// 			wrapper: 'flex-row-reverse',
+					// 			chatList: 'items-end',
+					// 		}} />
+					// 	</>
+					// ) :
+					<LaunchScreen />
 					: (
 						<div className={'max-w-3xl w-full flex flex-col justify-center gap-5 h-fit px-2 relative'}>
 							{messages.length === 0 && (
