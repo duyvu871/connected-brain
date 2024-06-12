@@ -166,7 +166,7 @@ function ChatSectionList({ sections, chatHistoryCollapsed }: {
 
 	return (
 		<div
-			className={cn('w-full max-h-96 block gap-2 transition-all overflow-x-hidden overflow-y-auto', chatHistoryCollapsed ? 'w-0 h-0 overflow-hidden' : '')}>
+			className={cn('w-full max-h-72 block gap-2 transition-all overflow-x-hidden overflow-y-auto', chatHistoryCollapsed ? 'w-0 h-0 overflow-hidden' : '')}>
 			<div className={'h-full'}>
 				{sections.map((message, index) => (
 					<div key={'chat-history-' + message._id.toString()}
@@ -229,7 +229,7 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 			<div
 				className={cn('flex flex-col justify-between border border-gray-800 gap-1 shadow w-full h-full rounded-2xl p-2 max-w-lg mx-auto select-none transition-all', classnames?.wrapper || '', chatHistoryCollapsed ? 'w-fit' : '')}>
 				<div className={'h-full w-full'}>
-					<div className={' flex flex-col justify-center items-start'}>
+					<div className={cn(' flex flex-col justify-start items-center', showMore && 'h-full')}>
 						<div
 							className={cn('w-full flex justify-between select-none mb-4 transition-all gap-2', chatHistoryCollapsed ? 'w-fit gap-2' : '', isCollapsed ? '' : 'gap-0')}>
 							<Tooltip title={chatHistoryCollapsed ? 'Show History' : 'Hide history'}>
