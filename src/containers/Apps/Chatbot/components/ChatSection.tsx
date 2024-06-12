@@ -19,6 +19,8 @@ import Copy from '@/components/CopyToClipBoard';
 import markdownToTxt from 'markdown-to-txt';
 import Markdown from '@/components/Markdown';
 import { NewChatMessageEnum } from 'types/apps/chatbot/api.type';
+import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
 
 interface ChatSectionProps {
 	classNames?: {
@@ -55,17 +57,7 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 
 		return (
 			<div className={cn('relative', messageWrapperClass)} ref={ref} {...props}>
-				<div
-					className={cn('absolute w-full h-full bottom-0 left-0 overflow-hidden ',
-						isNewMessage ? 'heightToZero' : '',
-						isAssistant ? 'h-0 transition-all delay-500 duration-[1000]' : 'hidden')}
-					style={{
-						animationDuration: content.split('\n').length * 0.2 + 's',
-					}}
-				>
-					<div className={'h-20 bg-gradient-to-t from-[--background-hero]'}></div>
-					<div className={'h-full bg-[--background-hero]'}></div>
-				</div>
+
 				{isAssistant ? (
 					<div className={'h-8 w-8 rounded-full pt-5'}>
 						<Icons.logo className="h-8 w-8 fill-blue-400" />
@@ -79,15 +71,48 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 				)}
 				<div className={messageListClass}>
 					<div className={'h-fit max-w-2xl w-fit w-[inherit] rounded-xl p-5'}>
+						<div
+							className={cn('absolute w-full h-full bottom-0 left-0 overflow-hidden ',
+								isNewMessage ? 'heightToZero' : '',
+								isAssistant ? 'h-0 transition-all delay-500 duration-[1000]' : 'hidden')}
+							style={{
+								animationDuration: content.split('\n').length * 0.2 + 's',
+							}}
+						>
+							<div className={'h-20 bg-gradient-to-t from-[--background-hero]'}></div>
+							<div className={'h-full bg-[--background-hero]'}></div>
+						</div>
 						<Markdown>{content}</Markdown>
 					</div>
-					<div className={'w-full flex justify-start items-center'}>
+					<div className={'w-full flex justify-start items-center gap-2'}>
 						{isAssistant && (
-							<Tooltip title={'Copy'}>
-								<Copy text={markdownToTxt(content)} childrenProps={{
-									className: 'p-2 rounded-full bg-gray-600 cursor-pointer',
-								}} />
-							</Tooltip>
+							<>
+								<Tooltip title={'Like this response'}>
+									<div
+										className={'p-2 rounded-full bg-gray-800 cursor-pointer transition-all hover:bg-gray-700 hover:text-white'}>
+										<AiOutlineLike />
+									</div>
+								</Tooltip>
+								<Tooltip title={'Unlike this response'}>
+									<div
+										className={'p-2 rounded-full bg-gray-800 cursor-pointer transition-all hover:bg-gray-700 hover:text-white'}>
+										<AiOutlineDislike />
+									</div>
+								</Tooltip>
+								<Tooltip title={'Unlike this response'}>
+									<div
+										className={'p-2 rounded-full bg-gray-800 cursor-pointer transition-all hover:bg-gray-700 hover:text-white'}>
+										<FiEdit />
+									</div>
+								</Tooltip>
+								<Tooltip title={'Copy'}>
+									<Copy text={markdownToTxt(content)} childrenProps={{
+										className: 'p-2 rounded-full bg-gray-800 cursor-pointer transition-all hover:bg-gray-700 hover:text-white',
+									}} />
+								</Tooltip>
+
+							</>
+
 						)}
 					</div>
 				</div>
