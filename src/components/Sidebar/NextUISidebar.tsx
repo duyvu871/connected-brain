@@ -82,7 +82,6 @@ function NextUiSidebar(
 					className={cn('font-semibold text-base no-underline text-black flex gap-2 px-4 py-[0.8rem]  justify-start items-center cursor-pointer bg-gray-800/50 backdrop-blur',
 						` ${pathname.includes(href) ? 'bg-gray-600/40' : ''}`,
 						'hover:bg-gray-600/40 transition-all',
-						isCollapsed ? 'justify-center items-center py-4' : '',
 					)}
 					onClick={() => {
 						router.push(href);
@@ -90,7 +89,9 @@ function NextUiSidebar(
 					<span className="sidebar__icon text-gray-100">
 						<Icon />
 					</span>
-					<span className="sidebar__name text-sm text-gray-100 capitalize">{title}</span>
+					<span className={cn(
+						'sidebar__name text-sm text-gray-100 capitalize overflow-hidden w-full transition-all',
+					)}>{title}</span>
 				</div>
 			</li>
 		);
@@ -99,9 +100,9 @@ function NextUiSidebar(
 	const FeatureList: FC<FeatureListProps> = ({ title, list, isCollapsed }) => {
 		return (
 			<div className={'w-full text-start mt-3'}>
-				{
-					isCollapsed || <div className={'w-full text-start text-sm font-semibold p-2'}>{title}</div>
-				}
+				<div className={cn(
+					'w-full text-start text-sm font-semibold overflow-hidden p-2',
+				)}>{title}</div>
 				<ul className="sidebar__list w-full rounded-[0.8rem] overflow-hidden">
 					{list.map(({ title: name, href, icon: Icon, description }) => {
 						return (
@@ -116,37 +117,46 @@ function NextUiSidebar(
 	};
 
 	return (
-		<div className="sidebar__wrapper w-fit fixed left-0 top-0 bg-[--background-hero] border-r-[1px] border-gray-800"
+		<div className="sidebar__wrapper w-fit flex flex-col fixed left-0 top-0 bg-[--background-hero] "
 				 data-collapse={isCollapsed}>
-			<button className="btn" onClick={toggleSidebarCollapse}>
+			<button className={'btn top-16'} onClick={toggleSidebarCollapse}>
 				{isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}
 			</button>
+			<div className={cn('h-16 border-r-[1px] border-gray-800 flex',
+				{
+					'border-b-[1px]': true,
+				})}>
+				<div
+					className={('w-full flex justify-center items-center cursor-pointer gap-2 m-0')}
+					onClick={() => {
+						router.push('/');
+					}}>
+					<Icons.logo className="h-8 w-8 fill-blue-400" />
+					<p className={cn(
+						'sidebar__logo-name text-md flex flex-col leading-5',
+						isCollapsed ? 'hidden' : '',
+					)}>
+						<span>Connected</span>
+						<span>Brain</span>
+					</p>
+				</div>
+			</div>
 			<aside
-				className="w-60 h-full transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.1)] overflow-hidden p-2 pt-0 flex flex-col gap-2 justify-between items-center bg-[--background-hero]"
+				className="w-60 h-full transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.1)] overflow-hidden p-2 pt-6 flex flex-col gap-2 justify-between items-center bg-[--background-hero] border-r-[1px] border-gray-800"
 				data-collapse={isCollapsed}
 			>
 				<div className={'flex flex-col gap-3 w-fit h-16 border-0 border-b-[1px] border-gray-800'}>
-					<div
-						className="sidebar__top w-full flex justify-center items-center cursor-pointer  p-[5px_!important] gap-2 my-2"
-						onClick={() => {
-							router.push('/');
-						}}>
-						<Icons.logo className="h-8 w-8 fill-blue-400" />
-						<p className="sidebar__logo-name text-md flex flex-col leading-5">
-							<span>Connected</span>
-							<span>Brain</span>
-						</p>
-					</div>
 					<div className={'border-0 border-b-[1px] border-gray-800'}>
 						<div
 							className={cn(
 								`h-12 text-base font-semibold no-underline text-black flex mb-4 justify-between rounded-[0.8rem] items-center bg-gray-800/50 backdrop-blur `,
-								isCollapsed ? 'flex-col justify-center items-center h-fit' : '',
+								// isCollapsed ? ' justify-center items-center h-fit' : '',
 							)}
 						>
 							<div
 								className={cn('flex w-full h-full justify-start items-center cursor-pointer hover:bg-gray-600/40 transition-all px-2 border-gray-700',
-									isCollapsed ? 'justify-center items-center py-4 border-b-[1px] ' : 'border-r-[1px] ')}
+									'border-r-[1px] ',
+								)}
 								onClick={() => {
 									router.push('/feature');
 								}}>
@@ -154,12 +164,12 @@ function NextUiSidebar(
 										<GoHomeFill />
 								</span>
 								<span
-									className="sidebar__name text-sm text-gray-100">Feature Overview</span>
+									className="sidebar__name text-sm text-gray-100 whitespace-nowrap">Feature Overview</span>
 							</div>
 							<Tooltip title={'Settings'}>
 								<motion.div
-									className={cn('px-4  h-full flex justify-center items-center hover:bg-gray-600/40 rounded-r-xl transition-all cursor-pointer ',
-										isCollapsed ? 'p-4 w-full' : '')}
+									className={cn('p-4 w-full h-full flex justify-center items-center hover:bg-gray-600/40 rounded-r-xl transition-all cursor-pointer ',
+									)}
 									initial={'reset'}
 								>
 									<IoSettings className={'sidebar__icon text-gray-100'} />
@@ -169,14 +179,14 @@ function NextUiSidebar(
 					</div>
 					<div className={''}>
 						{
-							isCollapsed ||
-							<div className={'w-full text-start '}>
-								<span className={'text-md font-bold px-1'}>Product categories</span>
+							// isCollapsed ||
+							<div className={cn('w-full text-start overflow-hidden')}>
+								<span className={'text-md font-bold px-1 whitespace-nowrap'}>Product categories</span>
 							</div>
 						}
 						<ul className="sidebar__list w-full rounded-[0.8rem] ">
 							{featureList2.map(({ title, list }) =>
-								<FeatureList key={`feature-list-[${title}]`} title={title} list={list} isCollapsed={isCollapsed} />,
+								<FeatureList key={`feature-list-[${title}]`} title={title} list={list} isCollapsed={false} />,
 							)}
 						</ul>
 					</div>

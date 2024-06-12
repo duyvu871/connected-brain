@@ -35,3 +35,8 @@ export type UpdateSectionResponse = {
 	};
 	error?: string;
 }
+
+export enum NewChatMessageEnum {
+	USER = 'user',
+	NEW_MESSAGE = 'new_message',
+}

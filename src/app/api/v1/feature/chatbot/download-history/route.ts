@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { dataTemplate } from '@/helpers/returned_response_template';
 import { getServerAuthSession } from '@/lib/nextauthOptions';
 import { SendMessageRequest } from 'types/features/Chatbot';
@@ -20,22 +20,19 @@ export async function POST(req: NextRequest) {
 		const response = await chatbotService.getChatHistoryDetail(new ObjectId(section_id));
 
 		const dataFormatted = response.map((message) => {
-			return `[${message.role}]: ${markdownToTxt(message.message)}`;
+			return `[${message.role === 'user' ? user.username : message.role}]: \n\t${markdownToTxt(message.message).replace(/\n/g, '\n\t')}`;
 		}).join('\n\n');
-		console.log(dataFormatted);
 
 		const buffer = Buffer.from(dataFormatted, 'utf-8');
-
 		const headers = new Headers();
 		headers.append(
-			'Content-Disposition',
-			'attachment; filename="chatbot-history.txt"',
+			'Content-Disposition', // define the content disposition
+			'attachment; filename="chatbot-history.txt"', // define the filename
 		);
 		headers.append('Content-Type', 'application/text');
 
-		return new Response(buffer, {
+		return new NextResponse(buffer, {
 			headers,
-			// status: 200,
 		});
 	} catch (error) {
 		return dataTemplate({ error: error.message }, 500);

@@ -16,8 +16,9 @@ type Props = {
 	value: string;
 	isDisabled?: boolean;
 	event?: {
-		onShiftEnter?: () => void;
-	}
+		onEnter?: () => void;
+	};
+	isClear?: boolean;
 };
 
 const AutoResizeQuill = ({
@@ -27,6 +28,7 @@ const AutoResizeQuill = ({
 													 value,
 													 isDisabled,
 													 event,
+													 isClear,
 												 }: Props) => {
 	const [plainText, setPlainText] = React.useState<string>('');
 	const quillRef = useRef<ReactQuill | any>(null);
@@ -45,15 +47,19 @@ const AutoResizeQuill = ({
 			eventKeyDown.stopPropagation();
 			setPlainText('');
 			onContentChange('');
-			event?.onShiftEnter && event.onShiftEnter();
+			event?.onEnter && event.onEnter();
 		}
 	};
 
 	const handleContentChange = (content: string, delta: any, source: string, editor: ReactQuill.UnprivilegedEditor) => {
+		const textContent = quillRef.current.getEditor().getContents().ops[0].insert;
+		onContentChange(textContent.replace(/\n+$/, ''));
+		setPlainText(quillRef.current.getEditor().root.innerHTML);
+		setQuillInstance(editor);
+
 		const childCount: number = quillRef.current.getEditor().selection.root.childNodes.length;
 		const rawContent = quillRef.current.getEditor().root.innerText;
 		const newLinesCount = rawContent.split('\n').filter((item: string) => item !== '');
-		const textContent = quillRef.current.getEditor().getContents().ops[0].insert;
 		// console.log(newLinesCount);
 		if (childCount > 1 || newLinesCount.length > 1) {
 			setIsTooLong && setIsTooLong(true);
@@ -61,31 +67,36 @@ const AutoResizeQuill = ({
 			setIsTooLong && setIsTooLong(false);
 		}
 		// console.log(textContent);
-		onContentChange(textContent.replace(/\n+$/, ''));
-		setPlainText(quillRef.current.getEditor().root.innerHTML);
-		setQuillInstance(editor);
+
 	};
 
 	useEffect(() => {
-		const quill = quillRef.current.getEditor();
-		const container = containerRef.current;
+		if (isClear) {
+			setPlainText('');
+			onContentChange('');
+		}
+	}, [isClear]);
 
-		const updateHeight = () => {
-			const height = quill.root.scrollHeight;
-			if (height > 200) {
-				container.style.height = '200px';
-				return;
-			}
-			container.style.height = 'auto';
-			container.style.height = `${quill.scrollHeight}px`;
-		};
-
-		quill.on('text-change', updateHeight);
-
-		updateHeight();
-
-		return () => quill.off('text-change', updateHeight);
-	}, []);
+	// useEffect(() => {
+	// 	const quill = quillRef.current.getEditor();
+	// 	const container = containerRef.current;
+	//
+	// 	const updateHeight = () => {
+	// 		const height = quill.root.scrollHeight;
+	// 		if (height > 200) {
+	// 			container.style.height = '200px';
+	// 			return;
+	// 		}
+	// 		container.style.height = 'auto';
+	// 		container.style.height = `${quill.scrollHeight}px`;
+	// 	};
+	//
+	// 	quill.on('text-change', updateHeight);
+	//
+	// 	updateHeight();
+	//
+	// 	return () => quill.off('text-change', updateHeight);
+	// }, []);
 
 	return (
 		<div ref={containerRef} style={{ height: 'auto', overflow: 'hidden' }} className={className + ' input_editor'}>

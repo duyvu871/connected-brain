@@ -13,6 +13,7 @@ const config = {
 	prefix: '',
 	theme: {
 		extend: {
+
 			fontFamily: {
 				sans: ['var(--font-sans)', ...fontFamily.sans],
 				sora: ['var(--font-sora)'],
@@ -33,6 +34,9 @@ const config = {
 			},
 		},
 	},
+	plugins: [
+		require('tailwindcss-animate'),
+	],
 } satisfies Config;
 
 export default config;

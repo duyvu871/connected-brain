@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { useAuth } from '@/hooks/useAuth';
 // import { messages } from '@/containers/Apps/Chatbot/example_data/chat';
-import Markdown from '@/components/Markdown';
 import { BsFillSendFill } from 'react-icons/bs';
 import { MdOutlineFileUpload } from 'react-icons/md';
 import Tooltip from '@/components/Tooltip';
@@ -14,11 +13,12 @@ import { useChatbot } from '@/contexts/ChatbotContext';
 import LaunchScreen from '@/containers/Apps/Chatbot/components/LaunchScreen';
 import AutoResizeQuill from '@/containers/Apps/Chatbot/components/Textarea';
 import { LeftChat } from '@/components/SkeletonLoad/ChatSection';
-import { useWindowScroll } from '@uidotdev/usehooks';
 import { motion } from 'framer-motion';
 import { IoIosArrowDown } from 'react-icons/io';
 import Copy from '@/components/CopyToClipBoard';
 import markdownToTxt from 'markdown-to-txt';
+import Markdown from '@/components/Markdown';
+import { NewChatMessageEnum } from 'types/apps/chatbot/api.type';
 
 interface ChatSectionProps {
 	classNames?: {
@@ -34,16 +34,38 @@ type ChatMessageProps = {
 	children?: React.ReactNode;
 	role?: 'assistant' | 'user'; // Add a prop for message role
 	content?: string;
+	isNewMessage?: boolean;
 };
 
 const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React.ComponentPropsWithoutRef<'div'> & ChatMessageProps>(
-	({ classNames, children, role, content, ...props }, ref) => {
+	({ classNames, children, role, content, isNewMessage = false, ...props }, ref) => {
 		const isAssistant = role === 'assistant';
 		const messageWrapperClass = cn('flex justify-start w-full', classNames?.wrapper || '');
 		const messageListClass = cn('flex flex-col gap-1 w-full', classNames?.chatList || '');
 		const { user } = useAuth();
+
+		// const innerRef = React.useRef<HTMLDivElement>(ref);
+
+		// console.log('isNewMessage', isNewMessage);
+		// console.log('content', content);
+
+		if (isNewMessage && content === NewChatMessageEnum.NEW_MESSAGE && isAssistant) {
+			return <LeftChat />;
+		}
+
 		return (
-			<div className={messageWrapperClass} ref={ref} {...props}>
+			<div className={cn('relative', messageWrapperClass)} ref={ref} {...props}>
+				<div
+					className={cn('absolute w-full h-full bottom-0 left-0 overflow-hidden ',
+						isNewMessage ? 'heightToZero' : '',
+						isAssistant ? 'h-0 transition-all delay-500 duration-[1000]' : 'hidden')}
+					style={{
+						animationDuration: content.split('\n').length * 0.2 + 's',
+					}}
+				>
+					<div className={'h-20 bg-gradient-to-t from-[--background-hero]'}></div>
+					<div className={'h-full bg-[--background-hero]'}></div>
+				</div>
 				{isAssistant ? (
 					<div className={'h-8 w-8 rounded-full pt-5'}>
 						<Icons.logo className="h-8 w-8 fill-blue-400" />
@@ -58,7 +80,6 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 				<div className={messageListClass}>
 					<div className={'h-fit max-w-2xl w-fit w-[inherit] rounded-xl p-5'}>
 						<Markdown>{content}</Markdown>
-						{/*{children}*/}
 					</div>
 					<div className={'w-full flex justify-start items-center'}>
 						{isAssistant && (
@@ -81,7 +102,9 @@ ChatMessage.displayName = 'ChatMessage';
 export function MessageListRender() {
 	const messages = useSelector((state: RootState) => state.chat.messages);
 	const { newMessageId, isNewSection, isSending } = useChatbot();
-	const [{ x, y }, scrollTo] = useWindowScroll();
+	// const [{ x, y }, scrollTo] = useWindowScroll();
+
+	// const [previousItems, setPreviousItems] = React.useState<>([]);
 
 	const [isShowScrollTo, setIsShowScrollTo] = React.useState<boolean>(false);
 
@@ -90,7 +113,7 @@ export function MessageListRender() {
 
 	const scrollToMessage = () => {
 		if (messageWrapperRef.current) {
-			console.log(messageWrapperRef.current);
+			// console.log(messageWrapperRef.current);
 			const messageWrapper = messageWrapperRef.current;
 			messageWrapper.scrollIntoView({ behavior: 'smooth' });
 		}
@@ -119,8 +142,14 @@ export function MessageListRender() {
 	}, [checkScroll]);
 
 	useEffect(() => {
+		setTimeout(() => {
+			scrollToMessage();
+		}, 1000);
+	}, []);
 
-	}, [messages]);
+	useEffect(() => {
+		scrollToMessage();
+	}, [newMessageId]);
 
 	return (
 		<>
@@ -160,6 +189,7 @@ export function MessageListRender() {
 										id={message.id}
 										ref={index === messages.length - 1 ? messageWrapperRef : null}
 										content={message.message}
+										isNewMessage={index === messages.length - 1}
 									/>
 								);
 							})}
@@ -194,8 +224,10 @@ function InputMessage({
 		sendMessage: (message: string) => void;
 	};
 }) {
-	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
 	const { promptText, setPromptText } = useChatbot();
+	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
+	const [isSendMessage, setIsSendMessage] = React.useState<boolean>(false);
+
 	return (
 		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
 			<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
@@ -208,10 +240,12 @@ function InputMessage({
 						isTooLong ? 'h-fit p-4' : 'h-14',
 					)}
 					onContentChange={setPromptText}
+					isClear={isSendMessage}
 					setIsTooLong={setIsTooLong}
 					event={{
-						onShiftEnter: () => {
+						onEnter: () => {
 							// console.log(promptText);
+							if (promptText === '') return;
 							action.sendMessage(promptText);
 						},
 					}}
@@ -226,7 +260,12 @@ function InputMessage({
 					</Tooltip>
 					<Tooltip title={'Generate prompt'}>
 						<div className={'p-3 rounded-full bg-gray-600 cursor-pointer'} onClick={() => {
+							if (promptText === '') {
+								// setPromptText('Chủ đề đáng chú ý');
+								return;
+							}
 							action.sendMessage(promptText);
+							setIsSendMessage(true);
 							setPromptText('');
 						}}>
 							<BsFillSendFill className={'text-white'} />

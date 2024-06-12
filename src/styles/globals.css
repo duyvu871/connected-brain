@@ -6,6 +6,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--background-hero);
+
+}
+
 :root {
     --font-sora: "Sora", sans-serif;
     --font-code: "Source Code Pro", monospace;
@@ -164,3 +172,16 @@ aside[data-collapse="true"] {
 }
 
 
+@keyframes heightAnimation {
+    0% {
+        height: 100%;
+    }
+    100% {
+        height: 0;
+    }
+}
+
+.heightToZero {
+    animation: heightAnimation 4s ease-in-out;
+    /*animation-delay: 1s;*/
+}

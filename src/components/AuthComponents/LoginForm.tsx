@@ -35,8 +35,10 @@ export function LoginForm(props: PaperProps) {
 	});
 
 	const onSubmit = () => {
+		// handle form submission
 		return handleSubmit((value) => {
-			login(value, '/');
+			// call login function
+			login(value, '/feature');
 			console.log(value);
 		}, (errors) => {
 			console.log(errors);
