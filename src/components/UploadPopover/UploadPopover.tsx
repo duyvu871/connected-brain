@@ -138,7 +138,7 @@ function UploadPopover({}: UploadPopoverProps) {
 				onClick={updateOrCreateProduct}
 				disabled={isUploading}>
 				{/*{isUploading ? <Spinner color={'white'} /> : ''}*/}
-				Tải lên
+				Upload
 			</button>
 		</div>
 	);

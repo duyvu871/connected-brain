@@ -5,6 +5,7 @@ import BaseLayout from '@/components/BaseLayout';
 import { getServerAuthSession } from '@/lib/nextauthOptions';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import NextuiProvider from '@/components/NextuiProvider';
 
 ;
 
@@ -17,9 +18,11 @@ async function Page() {
 	}
 	return (
 		<ProvidersLayout>
-			<BaseLayout>
-				<FeatureDetailPage />
-			</BaseLayout>
+			<NextuiProvider>
+				<BaseLayout>
+					<FeatureDetailPage />
+				</BaseLayout>
+			</NextuiProvider>
 		</ProvidersLayout>
 	);
 }

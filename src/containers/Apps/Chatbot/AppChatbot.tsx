@@ -26,7 +26,7 @@ function AppChatbot({}: AppChatbotProps) {
 		<>
 			<div className={'relative w-full'}>
 				{/* Navbar */}
-				<nav
+				<div
 					className="absolute w-full h-16 top-0 bg-[--background-hero]/50 backdrop-blur-[4px] border-gray-800 border-b-[1px] z-40">
 					<div className="flex justify-between items-center h-full px-5">
 						<div className="flex items-center">
@@ -49,7 +49,7 @@ function AppChatbot({}: AppChatbotProps) {
 							</div>
 						</div>
 					</div>
-				</nav>
+				</div>
 				{/*<div className={''}>*/}
 				{/*<UserSidebar isOpen={isUserSidebarOpen} setIsOpen={setIsUserSidebarOpen} />*/}
 				{/*</div>*/}
