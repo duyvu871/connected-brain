@@ -18,7 +18,9 @@ import DownloadModal from '@/containers/Apps/Chatbot/components/Modals/DownloadM
 interface ChatHistoryProps {
 	classnames?: {
 		wrapper?: string;
+		container?: string;
 	};
+	isOpenedWhenMobile?: boolean;
 };
 
 const variants = {
@@ -225,9 +227,21 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 
 	return (
 		<div
-			className={cn('p-5 pl-0 w-full h-full max-w-xs flex flex-col justify-between transition-all', chatHistoryCollapsed ? 'w-fit gap-0' : '')}>
+			className={cn(' flex flex-col justify-between transition-all bottom-0 z-[120] w-full md:max-w-xs md:h-full md:relative md:p-5 md:pl-0',
+				chatHistoryCollapsed ? 'w-fit gap-0' : '',
+				classnames?.wrapper || '',
+			)}>
+			{/*<div className={'w-screen h-screen absolute top-0 left-0 bg-black/40 z-[121] md:hidden'} />*/}
 			<div
-				className={cn('flex flex-col justify-between border border-gray-800 gap-1 shadow w-full h-full rounded-2xl p-2 max-w-lg mx-auto select-none transition-all', classnames?.wrapper || '', chatHistoryCollapsed ? 'w-fit' : '')}>
+				className={cn('bg-[--background-hero] flex flex-col justify-between border border-gray-800 gap-1 shadow w-full md:h-full md:rounded-2xl rounded-3xl rounded-b-none p-2 max-w-lg mx-auto select-none transition-all',
+					chatHistoryCollapsed ? 'w-fit' : '',
+					classnames?.container || '',
+				)}>
+				{/*<div className={'w-full h-10 text-end md:hidden flex justify-end mb-1'}>*/}
+				{/*	<div className={'rounded-full w-8 h-8 hover:bg-gray-800 flex justify-center items-center'}>*/}
+				{/*		<LiaTimesSolid className={'text-white'} />*/}
+				{/*	</div>*/}
+				{/*</div>*/}
 				<div className={'h-full w-full'}>
 					<div className={cn(' flex flex-col justify-start items-center', showMore && 'h-full')}>
 						<div
@@ -237,7 +251,7 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 									ref={CHRef}
 									className={cn(
 										'relative w-10 h-10 bg-gray-800 flex justify-center items-center rounded-xl transition-all duration-300 cursor-pointer',
-										'hover:bg-gray-700',
+										'hover:bg-gray-700 hidden md:flex',
 										isCollapsed ? '' : 'w-0 ',
 									)}
 									onClick={() => setChatHistoryCollapsed(prev => !prev)}
@@ -247,8 +261,8 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 								</motion.div>
 							</Tooltip>
 							<div className={cn(
-								'rounded-xl bg-gray-800 h-10 w-64 flex justify-center items-center px-3 transition-all duration-300',
-								chatHistoryCollapsed ? 'w-10 p-0' : '',
+								'rounded-xl bg-gray-800 h-10 w-full md:w-64 flex justify-center items-center px-3 transition-all duration-300',
+								chatHistoryCollapsed ? 'md:w-10 p-0' : '',
 								isCollapsed ? '' : 'w-full',
 							)}
 								// onMouseEnter={() => setIsCollapsed(false)}

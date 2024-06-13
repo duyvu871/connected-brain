@@ -11,6 +11,7 @@ export type SectionMessageGeneratedType = {
 export type MessageHistoryType = {
 	_id?: ObjectId;
 	message: string;
+	mediaMessage?: string[];
 	role: 'user' | 'assistant';
 	createdAt: Date;
 	updatedAt: Date;
@@ -21,6 +22,7 @@ export type MessageHistoryType = {
 export type SendMessageRequest = {
 	user_id?: string;
 	message?: string;
+	messageMedia?: string[];
 	section_id?: string;
 }
 

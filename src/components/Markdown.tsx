@@ -50,7 +50,7 @@ function Markdown({ children, isTyping }: MarkdownProps) {
 		return () => clearInterval(intervalId);
 	}, [isTyping, children]);
 	return (
-		<ReactMarkdown className={'markdown-body bg-opacity-0 text-gray-600'}
+		<ReactMarkdown className={'markdown-body bg-opacity-0 text-gray-600 text-sm md:text-base'}
 									 remarkPlugins={[remarkGfm]}>
 			{displayResponse}
 		</ReactMarkdown>

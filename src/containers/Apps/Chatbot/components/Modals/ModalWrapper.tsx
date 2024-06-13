@@ -15,7 +15,7 @@ function ModalWrapper({ trigger, content, containCloseBtn }: ModalWrapperProps) 
 	return (
 		<Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
 			<PopoverTrigger>{trigger}</PopoverTrigger>
-			<PopoverContent className={cn('shadow-2xl rounded-xl bg-gray-800')}>
+			<PopoverContent className={cn('shadow-2xl rounded-xl bg-gray-800 z')}>
 				{containCloseBtn && (
 					<div className={'w-full flex justify-end items-end p-2'}>
 						<div onClick={() => setIsOpen(false)} className={'cursor-pointer'}>

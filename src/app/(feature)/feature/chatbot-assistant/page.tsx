@@ -7,6 +7,7 @@ import ReduxProviders from '@/app/ReduxProviders';
 import { getServerAuthSession } from '@/lib/nextauthOptions';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import NextuiProvider from '@/components/NextuiProvider';
 
 interface PageProps {
 
@@ -22,11 +23,13 @@ async function Page({}: PageProps) {
 	return (
 		<ReduxProviders>
 			<ProvidersLayout>
-				<BaseLayout>
-					<ChatbotProvider>
-						<AppChatbot />
-					</ChatbotProvider>
-				</BaseLayout>
+				<NextuiProvider>
+					<BaseLayout>
+						<ChatbotProvider>
+							<AppChatbot />
+						</ChatbotProvider>
+					</BaseLayout>
+				</NextuiProvider>
 			</ProvidersLayout>
 		</ReduxProviders>
 	);

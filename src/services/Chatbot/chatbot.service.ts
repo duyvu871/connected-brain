@@ -71,7 +71,6 @@ export class ChatbotService {
 		);
 		if (!updateStatus.acknowledged) throw new Error('Failed to update user chat history');
 
-
 		return {
 			...sectionMessage,
 			_id: result.insertedId,
@@ -79,7 +78,10 @@ export class ChatbotService {
 	}
 
 	// send message to the chatbot and return the response
-	public async sendMessage(message: string, sectionId: ObjectId): Promise<MessageHistoryType> {
+	public async sendMessage(message: {
+		textContent: string,
+		mediaContent: string[],
+	}, sectionId: ObjectId): Promise<MessageHistoryType> {
 		await this.loadDB();
 		const user = await this.userCollection.findOne({ _id: new ObjectId(this.USER_ID) });
 		if (!user) throw new Error('User not found');
@@ -88,45 +90,49 @@ export class ChatbotService {
 		if (!sectionMessage) throw new Error('Section not found');
 
 		const chatRequest: ExcludeProperties<MessageHistoryType, '_id'> = {
-			message,
+			message: message.textContent,
+			mediaMessage: message.mediaContent,
 			role: 'user',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		};
-
-		const requestCreateMessage = await this.messageHistoryCollection.insertOne(chatRequest);
-		if (!requestCreateMessage.acknowledged) throw new Error('Failed to create message');
-
-		await this.sectionMessageCollection.updateOne(
-			{ _id: sectionId },
-			{ $push: { message_generated: requestCreateMessage.insertedId } },
-		);
 
 		const chatHistory = await this.messageHistoryCollection.find(
 			{ _id: { $in: sectionMessage.message_generated } },
 		).toArray();
 
 		const fitChatHistory = chatHistory.map(chat => ({
-			parts: [chat.message],
-			role: chat.role,
-		})) as unknown as Content[];
+			parts: [{ text: chat.message }],
+			role: chat.role === 'assistant' ? 'model' : 'user',
+		})).reverse() as unknown as Content[];
 
-		const response = await this.chatbot.sendMessage(message, [], false);
+		const response = await this.chatbot.sendMessage(message, fitChatHistory, true);
 
 		const chatResponse: MessageHistoryType = {
 			_id: new ObjectId(),
 			message: response,
+			mediaMessage: [''],
 			role: 'assistant',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		};
+
+		const requestCreateMessage = await this.messageHistoryCollection.insertOne(chatRequest);
+		if (!requestCreateMessage.acknowledged) throw new Error('Failed to create user message');
 
 		const reqCreateBotMessage = await this.messageHistoryCollection.insertOne(chatResponse);
 		if (!reqCreateBotMessage.acknowledged) throw new Error('Failed to create bot message');
 
 		const updateStatus = await this.sectionMessageCollection.updateOne(
 			{ _id: sectionId },
-			{ $push: { message_generated: reqCreateBotMessage.insertedId } },
+			{
+				$push: {
+					message_generated: {
+						$each: [requestCreateMessage.insertedId,
+							reqCreateBotMessage.insertedId],
+					},
+				},
+			},
 		);
 
 		if (!updateStatus.acknowledged) throw new Error('Failed to update section message');

@@ -29,6 +29,7 @@ interface InsertMessageAction {
 	payload: {
 		messages: {
 			message: string;
+			contentMedia: string[];
 			role: 'user' | 'assistant';
 			id: string;
 		}[];
@@ -67,10 +68,10 @@ export const updateChatById = (newMessage: string, id: string): UpdateChatByIdAc
 	payload: { message: newMessage, id },
 });
 
-export const insertMessage = (message: string, role: 'user' | 'assistant', id: string): InsertMessageAction => ({
+export const insertMessage = (message: string, contentMedia: string[] = [''], role: 'user' | 'assistant', id: string): InsertMessageAction => ({
 	type: ChatActionTypes.INSERT_MESSAGE,
 	payload: {
-		messages: [{ message, role, id }],
+		messages: [{ message, role, id, contentMedia }],
 	},
 });
 
@@ -83,3 +84,41 @@ export const loadChat = (payload: InsertMessageAction['payload']): LoadChatActio
 	type: ChatActionTypes.LOAD_CHAT,
 	payload: { messages: payload.messages },
 });
+
+
+// history toggle action
+
+export enum ModalActionTypes {
+	HideModal = 'HIDE_MODAL',
+	ShowModal = 'SHOW_MODAL',
+	ToggleModal = 'TOGGLE_MODAL',
+}
+
+export interface ModalAction {
+	type: ModalActionTypes;
+	payload?: boolean;
+	modal_name?: string;
+}
+
+export function showModal(name: string): ModalAction {
+	return {
+		type: ModalActionTypes.ShowModal,
+		payload: true,
+		modal_name: name,
+	};
+}
+
+export function hideModal(name: string): ModalAction {
+	return {
+		type: ModalActionTypes.HideModal,
+		payload: false,
+		modal_name: name,
+	};
+}
+
+export function toggleModal(name: string): ModalAction {
+	return {
+		type: ModalActionTypes.ToggleModal,
+		modal_name: name,
+	};
+}

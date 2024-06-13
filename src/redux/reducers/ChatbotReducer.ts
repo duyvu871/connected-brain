@@ -3,6 +3,7 @@ import { ChatAction, ChatActionTypes } from '@/redux/actions/ChatbotAtion';
 export interface ChatState {
 	messages: {
 		message: string;
+		contentMedia: string[];
 		role: 'user' | 'assistant';
 		id: string;
 	}[];
@@ -48,3 +49,4 @@ const chatReducer = (state = initialState, action: ChatAction): ChatState => {
 };
 
 export default chatReducer;
+

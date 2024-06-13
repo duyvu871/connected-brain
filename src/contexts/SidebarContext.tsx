@@ -37,7 +37,7 @@ const SidebarContext = createContext<SidebarContextProps>(initialValue);
  * </SidebarProvider>
  */
 const SidebarProvider = ({ children }: SidebarProviderProps) => {
-	const [isCollapsed, setCollapse] = useState(false);
+	const [isCollapsed, setCollapse] = useState(true);
 
 	/**
 	 *Toggle sidebar collapse

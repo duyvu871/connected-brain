@@ -9,13 +9,14 @@ interface BaseLayoutProps {
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
 	return (
-		<div className="layout">
+		// <div className="layout">
+		<>
 			<NextUiSidebar />
 			<main className="layout__main-content h-[100vh] overflow-x-hidden overflow-y-auto bg-[--background-hero]/80">
-
 				{children}
 			</main>
-		</div>
+			{/*// </div>*/}
+		</>
 	);
 };
 

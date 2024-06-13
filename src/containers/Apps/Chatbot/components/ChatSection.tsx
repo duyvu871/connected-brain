@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, memo, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { useAuth } from '@/hooks/useAuth';
@@ -21,6 +21,10 @@ import Markdown from '@/components/Markdown';
 import { NewChatMessageEnum } from 'types/apps/chatbot/api.type';
 import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
+import UploadModal from '@/containers/Apps/Chatbot/components/Modals/UploadModal';
+import useUID from '@/hooks/useUID';
+import { Image } from '@nextui-org/react';
+import { LiaTimesSolid } from 'react-icons/lia';
 
 interface ChatSectionProps {
 	classNames?: {
@@ -36,21 +40,17 @@ type ChatMessageProps = {
 	children?: React.ReactNode;
 	role?: 'assistant' | 'user'; // Add a prop for message role
 	content?: string;
+	contentMedia?: string[];
 	isNewMessage?: boolean;
 };
 
 const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React.ComponentPropsWithoutRef<'div'> & ChatMessageProps>(
-	({ classNames, children, role, content, isNewMessage = false, ...props }, ref) => {
+	({ classNames, children, role, content, contentMedia, isNewMessage = false, ...props }, ref) => {
 		const isAssistant = role === 'assistant';
 		const messageWrapperClass = cn('flex justify-start w-full', classNames?.wrapper || '');
 		const messageListClass = cn('flex flex-col gap-1 w-full', classNames?.chatList || '');
 		const { user } = useAuth();
-
-		// const innerRef = React.useRef<HTMLDivElement>(ref);
-
-		// console.log('isNewMessage', isNewMessage);
-		// console.log('content', content);
-
+		const [generateUID] = useUID();
 		if (isNewMessage && content === NewChatMessageEnum.NEW_MESSAGE && isAssistant) {
 			return <LeftChat />;
 		}
@@ -83,6 +83,18 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 							<div className={'h-full bg-[--background-hero]'}></div>
 						</div>
 						<Markdown>{content}</Markdown>
+						<div className={'flex p-2 m-2 gap-4 justify-start'}>
+							{!isAssistant && (
+								contentMedia.map((media, index) => (
+									<div className={'relative w-24 h-28'} key={'content-media_' + generateUID()}>
+										<div
+											className={'w-full h-full relative rounded-xl flex justify-center items-center bg-gray-800 overflow-hidden'}>
+											<Image src={media} radius={'lg'} alt={'media'} className={'w-full h-full object-cover'} />
+										</div>
+									</div>
+								))
+							)}
+						</div>
 					</div>
 					<div className={'w-full flex justify-start items-center gap-2'}>
 						{isAssistant && (
@@ -110,9 +122,7 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 										className: 'p-2 rounded-full bg-gray-800 cursor-pointer transition-all hover:bg-gray-700 hover:text-white',
 									}} />
 								</Tooltip>
-
 							</>
-
 						)}
 					</div>
 				</div>
@@ -127,10 +137,6 @@ ChatMessage.displayName = 'ChatMessage';
 export function MessageListRender() {
 	const messages = useSelector((state: RootState) => state.chat.messages);
 	const { newMessageId, isNewSection, isSending } = useChatbot();
-	// const [{ x, y }, scrollTo] = useWindowScroll();
-
-	// const [previousItems, setPreviousItems] = React.useState<>([]);
-
 	const [isShowScrollTo, setIsShowScrollTo] = React.useState<boolean>(false);
 
 	const messageWrapperRef = React.useRef<HTMLDivElement & ChatMessageProps>(null);
@@ -182,15 +188,6 @@ export function MessageListRender() {
 				className={' flex flex-col items-center gap-5 overflow-hidden overflow-y-auto w-full h-full pt-10 pb-20 relative'}
 				ref={scrollRef}>
 				{isNewSection ?
-					// isSending ? (
-					// 	<>
-					// 		<LeftChat />
-					// 		<LeftChat classnames={{
-					// 			wrapper: 'flex-row-reverse',
-					// 			chatList: 'items-end',
-					// 		}} />
-					// 	</>
-					// ) :
 					<LaunchScreen />
 					: (
 						<div className={'max-w-3xl w-full flex flex-col justify-center gap-5 h-fit px-2 relative'}>
@@ -215,6 +212,7 @@ export function MessageListRender() {
 										id={message.id}
 										ref={index === messages.length - 1 ? messageWrapperRef : null}
 										content={message.message}
+										contentMedia={message.contentMedia}
 										isNewMessage={index === messages.length - 1}
 									/>
 								);
@@ -243,76 +241,137 @@ export function MessageListRender() {
 	);
 }
 
-function InputMessage({
-												action,
-											}: {
-	action?: {
-		sendMessage: (message: string) => void;
-	};
-}) {
-	const { promptText, setPromptText } = useChatbot();
+const ContentMediaItem = memo(({ media, index, removeItemAction }: {
+	media: string;
+	index: number;
+	removeItemAction: (index: number) => void
+}) => {
+	return (
+		<div className={'relative w-24 h-28'}>
+			<div
+				className={'w-full h-full relative rounded-xl flex justify-center items-center bg-gray-800 overflow-hidden'}>
+				<Image src={media} radius={'lg'} alt={'media'} className={'w-full h-full object-cover'} />
+			</div>
+			<button onClick={() => {
+				removeItemAction(index);
+			}}
+							className={'w-5 h-5 rounded-full flex justify-center items-center bg-gray-600 hover:bg-gray-500 hover:text-white transition-all absolute top-0 right-0 z-[100] translate-x-[30%] translate-y-[-30%]'}>
+				<LiaTimesSolid />
+			</button>
+		</div>
+	);
+});
+ContentMediaItem.displayName = 'ContentMediaItem';
+
+function ContentMediaList() {
+	const { contentMedia, setContentMedia } = useChatbot();
+	const [generateUID] = useUID();
+	const deleteItem = React.useCallback((indexToDelete: number) => {
+		setContentMedia((prevContent) =>
+			prevContent.filter((item, index) => index !== indexToDelete),
+		);
+	}, []);
+	if (contentMedia.length === 0) return null;
+	return (
+		<div className={'flex p-2 m-2 gap-4 justify-start w-full'}>
+			{contentMedia.map((media, index) => (
+				<ContentMediaItem
+					key={'media-content_' + generateUID()}
+					media={media}
+					index={index}
+					removeItemAction={deleteItem} />
+			))}
+		</div>
+	);
+}
+
+const ContentMediaMemo = memo(ContentMediaList);
+
+function InputMessage(
+	{
+		action,
+	}: {
+		action?: {
+			sendMessage: (message: string, mediaContent?: string[]) => void;
+		};
+	}) {
+	const { contentMedia, setContentMedia } = useChatbot();
+	const [promptText, setPromptText] = React.useState<string>('');
 	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
 	const [isSendMessage, setIsSendMessage] = React.useState<boolean>(false);
 
 	return (
-		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
-			<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
-				<AutoResizeQuill
-					isDisabled={false}
-					placeholder={'Type a message'}
-					value={promptText}
-					className={cn(
-						'w-full bg-transparent outline-none max-h-52 resize-none text-white',
-						isTooLong ? 'h-fit p-4' : 'h-14',
-					)}
-					onContentChange={setPromptText}
-					isClear={isSendMessage}
-					setIsTooLong={setIsTooLong}
-					event={{
-						onEnter: () => {
-							// console.log(promptText);
-							if (promptText === '') return;
-							action.sendMessage(promptText);
-						},
-					}}
-				/>
-				<div
-					className={cn('flex flex-row justify-end items-center gap-2', isTooLong ? 'w-full ' : 'w-fit')}>
-					<Tooltip title={'Upload'}>
+		<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
+			<AutoResizeQuill
+				isDisabled={false}
+				placeholder={'Type a message'}
+				value={promptText}
+				className={cn(
+					'w-full bg-transparent outline-none max-h-52 resize-none text-white',
+					isTooLong ? 'h-fit p-4' : 'h-14',
+				)}
+				onContentChange={setPromptText}
+				isClear={isSendMessage}
+				setIsTooLong={setIsTooLong}
+				event={{
+					onEnter: () => {
+						// console.log(promptText);
+						if (promptText === '') return;
+						action.sendMessage(promptText, contentMedia);
+						setContentMedia([]);
+					},
+				}}
+			/>
+			<div
+				className={cn('flex flex-row justify-end items-center gap-2', isTooLong ? 'w-full ' : 'w-fit')}>
+				<Tooltip title={'Upload'}>
+					<UploadModal>
 						<div
 							className={'p-2 aspect-square flex justify-center items-center rounded-full bg-gray-600 cursor-pointer'}>
 							<MdOutlineFileUpload className={'text-white'} size={26} />
 						</div>
-					</Tooltip>
-					<Tooltip title={'Generate prompt'}>
-						<div className={'p-3 rounded-full bg-gray-600 cursor-pointer'} onClick={() => {
-							if (promptText === '') {
-								// setPromptText('Chủ đề đáng chú ý');
-								return;
-							}
-							action.sendMessage(promptText);
-							setIsSendMessage(true);
-							setPromptText('');
-						}}>
-							<BsFillSendFill className={'text-white'} />
-						</div>
-					</Tooltip>
-				</div>
+					</UploadModal>
+				</Tooltip>
+				<Tooltip title={'Generate prompt'}>
+					<div className={'p-3 rounded-full bg-gray-600 cursor-pointer'} onClick={() => {
+						if (promptText === '') {
+							// setPromptText('Chủ đề đáng chú ý');
+							return;
+						}
+						action.sendMessage(promptText, contentMedia);
+						setContentMedia([]);
+						setIsSendMessage(true);
+						setPromptText('');
+					}}>
+						<BsFillSendFill className={'text-white'} />
+					</div>
+				</Tooltip>
 			</div>
 		</div>
 	);
 }
 
-function ChatSection({ classNames }: ChatSectionProps) {
+function InputWrapper() {
 	const { sendMessage } = useChatbot();
 
 	return (
+		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
+			<ContentMediaMemo />
+			<InputMessage action={{
+				sendMessage,
+			}} />
+		</div>
+	);
+}
+
+function ChatSection({ classNames }: ChatSectionProps) {
+	return (
 		<div
-			className={cn(' shadow rounded-2xl p-4 pt-0 pr-0  w-full h-full mx-auto flex flex-col justify-between items-center', classNames?.wrapper || '')}>
+			className={cn(' shadow rounded-2xl p-2 md:p-4 pt-0 pr-0  w-full h-full mx-auto flex flex-col justify-between items-center relative', classNames?.wrapper || '')}>
 			<MessageListRender />
 			<div className={'w-full h-fit flex flex-col justify-center items-center relative max-w-3xl pr-4'}>
 				<div className={'w-full h-14 bg-gradient-to-t from-[background-hero] absolute top-[-100%]'}></div>
-				<InputMessage action={{ sendMessage }} />
+				<InputWrapper />
 				<div className={'absolute'}></div>
 			</div>
 		</div>

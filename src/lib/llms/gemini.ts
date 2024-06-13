@@ -1,9 +1,11 @@
 import {
 	Content,
 	GenerationConfig,
+	GenerativeModel,
 	GoogleGenerativeAI,
 	HarmBlockThreshold,
 	HarmCategory,
+	Part,
 	SafetySetting,
 } from '@google/generative-ai';
 import { initAI } from './init';
@@ -85,7 +87,7 @@ export type MimeTypes =
 
 export class GeminiChatService {
 	private genAI: GoogleGenerativeAI;
-	private model: any;
+	private model: GenerativeModel;
 	private readonly generationConfig: GenerationConfig;
 	private readonly safetySettings: SafetySetting[];
 
@@ -121,17 +123,45 @@ export class GeminiChatService {
 		];
 	}
 
-	public async sendMessage(message: string, history: Content[], passInitPrompt?: boolean): Promise<string> {
+	public async startChat(isUsePrompt: boolean) {
+		let initMessage: Content;
+		if (isUsePrompt) initMessage = initAI().initPrompt as unknown as Content;
+		const chatSessionGenerated = await this.model.generateContent(initMessage.parts);
+		const response = chatSessionGenerated.response;
+		return response.text();
+	}
+
+	public async sendMessage(
+		message: {
+			textContent: string;
+			mediaContent?: string[]; // url for media content
+		},
+		history: Content[],
+		passInitPrompt?: boolean,
+	): Promise<string> {
 		const initMessage = initAI().initPrompt as unknown as Content;
+		const messageContent: string | (string | Part)[] = [
+			{
+				text: message.textContent,
+			},
+		];
+
+		if (message.mediaContent.length > 0) {
+			const contentFetch = message.mediaContent.map((item) => this.fetchToBase64WithMimeType(item));
+			const content = await Promise.all(contentFetch);
+			const filteredContent = content.filter((item) => item.contentType && item.base64Data);
+			const mediaContent = filteredContent.map((item) =>
+				this.fileToGenerativePath(item.base64Data, item.contentType as MimeTypes));
+			messageContent.push(...mediaContent);
+		}
+		// console.log(messageContent);
 		const chatSession = this.model.startChat({
 			generationConfig: this.generationConfig,
 			safetySettings: this.safetySettings,
 			history: passInitPrompt ? [initMessage, ...history] : history,
 		});
 
-		// chatSession.
-
-		const result = await chatSession.sendMessage(message);
+		const result = await chatSession.sendMessage(messageContent);
 		return result.response.text();
 	}
 
@@ -153,5 +183,36 @@ export class GeminiChatService {
 				mimeType,
 			},
 		};
+	}
+
+	public async fetchToBase64WithMimeType(url: string) {
+		try {
+			// validate url
+			const urlObj = new URL(url);
+			if (!urlObj.protocol.startsWith('http')) {
+				return {
+					contentType: null,
+					base64Data: null,
+				};
+			}
+
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const contentType = response.headers.get('Content-Type');
+			const blob = await response.blob();
+			const buffer = await blob.arrayBuffer();
+			const base64String = Buffer.from(buffer).toString('base64');
+
+			return {
+				contentType,
+				base64Data: base64String,
+			};
+		} catch (error) {
+			console.error('Error fetching or converting to base64:', error);
+			return null;
+		}
 	}
 }

@@ -6,7 +6,6 @@ import {
 	loadChat,
 	updateChatById as UpdateChatByIdAction,
 } from '@/redux/actions/ChatbotAtion';
-// import { ObjectId } from 'mongodb';
 import {
 	CreateNewSectionResponse,
 	NewChatMessageEnum,
@@ -17,7 +16,6 @@ import {
 import { MessageHistoryType, SectionMessageGeneratedType } from 'types/features/Chatbot';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-// import { Session } from 'next-auth';
 import { UserSessionPayload } from 'types/user.type';
 import { APIs } from '@/utils/route-list';
 import { ObjectId } from 'mongodb';
@@ -32,21 +30,26 @@ interface Message {
 interface ChatbotContextType {
 	newMessageId: string;
 	promptText: string;
+	contentMedia: string[];
+	setContentMedia: React.Dispatch<React.SetStateAction<string[]>>;
 	setPromptText: (prompt: string) => void;
 	messages: Message[];
 	sections: SectionMessageGeneratedType[];
 	isNewSection: boolean;
 	isSending?: boolean;
-	sendMessage: (text: string) => Promise<void>;
+	sendMessage: (text: string, mediaContent: string[]) => Promise<void>;
 	clearMessages: () => void;
-	insertMessage: (text: string, sender: 'user' | 'assistant', chat_id: string) => void;
+	insertMessage: (text: string, contentMedia: string[], sender: 'user' | 'assistant', chat_id: string) => void;
 	createSectionMessage: (message: string) => Promise<void>;
 	updateChatHistory: (chat_id: string, update_data: UpdateSectionRequest['update_data']) => Promise<UpdateSectionResponse['data']>;
 }
 
 const defaultContext: ChatbotContextType = {
 	newMessageId: '',
+	contentMedia: [],
 	promptText: '',
+	setContentMedia: () => {
+	},
 	setPromptText: () => {
 	},
 	isNewSection: false,
@@ -78,6 +81,8 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<UserSessionPayload>(userSession);
 	const [generateUID] = useUID();
 	// const { _id, role, username, uid } = user;
+	const [contentMedia, setContentMedia] = useState<string[]>([]);
+
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [sections, setSections] = useState<SectionMessageGeneratedType[]>([]);
 	const [promptText, setPromptText] = useState<string>('');
@@ -93,22 +98,22 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		}));
 	};
 
-	const insertMessage = (text: string, sender: 'user' | 'assistant', chat_id: string) => {
-		store.dispatch(InsertMessageAction(text, sender, chat_id as string));
+	const insertMessage = (text: string, contentMedia: string[], sender: 'user' | 'assistant', chat_id: string) => {
+		store.dispatch(InsertMessageAction(text, contentMedia, sender, chat_id as string));
 	};
 
 	const updateMessage = (text: string, chat_id: string) => {
 		store.dispatch(UpdateChatByIdAction(text, chat_id as string));
 	};
 
-	const sendMessage = async (text: string) => {
+	const sendMessage = async (text: string, mediaContent: string[] = []) => {
 		if (!chat_id) {
 			await createSectionMessage(text);
 			return;
 		}
-		insertMessage(text, 'user', chat_id);
+		insertMessage(text, mediaContent, 'user', chat_id);
 		const newMessageId = 'new_message_' + generateUID();
-		insertMessage(NewChatMessageEnum.NEW_MESSAGE, 'assistant', newMessageId);
+		insertMessage(NewChatMessageEnum.NEW_MESSAGE, [], 'assistant', newMessageId);
 		setIsSending(true);
 		const response = await fetch('/api/v1/feature/chatbot/send-message', {
 			method: 'POST',
@@ -117,10 +122,12 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 			},
 			body: JSON.stringify({
 				message: text,
+				messageMedia: mediaContent,
 				section_id: chat_id,
 				user_id: user._id,
 			} as SendMessageRequest),
 		});
+		setContentMedia([]);
 		const data = await response.json() as MessageHistoryType;
 		if (response.status !== 200) {
 			console.error(data);
@@ -146,9 +153,9 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		return data;
 	}, [userSession]);
 
-	const createSectionMessage = async (message: string) => {
-		insertMessage(message, 'user', 'preview-created-user');
-		insertMessage(NewChatMessageEnum.NEW_MESSAGE, 'assistant', 'preview-created-assistant');
+	const createSectionMessage = async (message: string, mediaContent: string[] = []) => {
+		insertMessage(message, mediaContent, 'user', 'preview-created-user');
+		insertMessage(NewChatMessageEnum.NEW_MESSAGE, [], 'assistant', 'preview-created-assistant');
 		setIsSending(true);
 		setIsNewSection(false);
 		const response = await fetch(APIs.chatbot.createSection, {
@@ -158,6 +165,7 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 			},
 			body: JSON.stringify({
 				message: message,
+				contentMedia: mediaContent,
 				user_id: user._id,
 			}),
 		});
@@ -172,11 +180,10 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 		router.prefetch(`/feature/chatbot-assistant?id=${newChatId}`);
 		// redirect to the new chat page
 		router.push(`/feature/chatbot-assistant?id=${newChatId}`);
-		// clear the preview messages
-		// deleteMessage('preview-created-assistant');
-		insertMessage(data.message_generated, 'assistant', newChatId);
+		// insert new message to the chat
+		insertMessage(data.message_generated, [], 'assistant', newChatId);
 		setNewMessageId(newChatId);
-		// console.log(data);
+		// update new section to the list
 		setSections((prevSections) => [{
 			_id: data._id as unknown as ObjectId,
 			section_name: data.section_name,
@@ -204,6 +211,7 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 				id: message._id.toString(),
 				role: message.role,
 				message: message.message,
+				contentMedia: message.mediaMessage,
 			})),
 		}));
 	}, [userSession]);
@@ -267,6 +275,8 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<ChatbotContext.Provider
 			value={{
+				contentMedia,
+				setContentMedia,
 				updateChatHistory,
 				newMessageId,
 				promptText,

@@ -5,9 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
+      <change afterPath="$PROJECT_DIR$/src/components/NextuiProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UploadPopover/UploadPopover.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/HistoryModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/UploadModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/firebase/firebase.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useToast.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/modalReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/component_default_props.ultis.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(feature)/feature/chatbot-assistant/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(feature)/feature/chatbot-assistant/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/create-new-section/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/create-new-section/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/send-message/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/v1/feature/chatbot/send-message/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BaseLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BaseLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Markdown.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Markdown.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProvidersLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProvidersLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/NextUISidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/NextUISidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/popover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/popover.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/AppChatbot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/AppChatbot.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatHistory.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/ModalWrapper.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/ChatbotContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/SidebarContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/SidebarContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/llms/gemini.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/gemini.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/llms/init.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/init.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions/ChatbotAtion.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/actions/ChatbotAtion.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/ChatbotReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/ChatbotReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Chatbot/chatbot.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/features/Chatbot/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/features/Chatbot/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +51,8 @@
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -88,7 +119,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "product",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "F:/CODE/connected-brain/front-end/src/components",
+    "last_opened_file_path": "F:/CODE/connected-brain/front-end/src/hooks",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
@@ -104,11 +135,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\src\hooks" />
+      <recent name="F:\CODE\connected-brain\front-end\src\utils" />
+      <recent name="F:\CODE\connected-brain\front-end\src" />
+      <recent name="F:\CODE\connected-brain\front-end" />
       <recent name="F:\CODE\connected-brain\front-end\src\components" />
-      <recent name="F:\CODE\connected-brain\front-end\src\containers\Apps\Chatbot\components" />
-      <recent name="F:\CODE\connected-brain\front-end\src\app" />
-      <recent name="F:\CODE\connected-brain\front-end\src\lib\llms" />
-      <recent name="F:\CODE\connected-brain\front-end\src\services\Chatbot" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\CODE\connected-brain\front-end\src\containers\Feature" />
@@ -173,7 +204,9 @@
       <workItem from="1717363375153" duration="1294000" />
       <workItem from="1717498064039" duration="588000" />
       <workItem from="1717581753712" duration="284000" />
-      <workItem from="1717755975478" duration="43589000" />
+      <workItem from="1717755975478" duration="45198000" />
+      <workItem from="1718184323376" duration="9794000" />
+      <workItem from="1718232679641" duration="23635000" />
     </task>
     <servers />
   </component>

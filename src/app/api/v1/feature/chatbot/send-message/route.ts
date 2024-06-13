@@ -13,11 +13,15 @@ export async function POST(req: NextRequest) {
 			error: 'Unauthorized',
 		}, 400);
 		const user_id = user._id;
-		const { section_id, message } = await req.json() as SendMessageRequest;
+		const { section_id, message, messageMedia } = await req.json() as SendMessageRequest;
 		if (!user_id) throw new Error('User ID is required');
-
+		const messageContent = {
+			textContent: message,
+			mediaContent: messageMedia ?? [],
+		};
+		// console.log(messageContent);
 		const chatbotService = new ChatbotService(new ObjectId(user_id));
-		const response = await chatbotService.sendMessage(message, new ObjectId(section_id));
+		const response = await chatbotService.sendMessage(messageContent, new ObjectId(section_id));
 		return dataTemplate({
 			_id: response._id,
 			message: response.message,
