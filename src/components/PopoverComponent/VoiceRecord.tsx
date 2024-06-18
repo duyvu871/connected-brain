@@ -141,7 +141,7 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 			<div
 				className={'relative w-full h-20 flex justify-center items-center'}>
 				<div
-					className={'absolute z-[800] w-12 h-12 rounded-full translate-x-1/2 translate-y-1/2 transition-all bg-gray-600'}
+					className={'absolute z-[800] w-12 h-12 rounded-full transition-all bg-gray-600'}
 					ref={animationMicRef}></div>
 				<div
 					className={'record-mic relative z-[801] w-10 h-10 rounded-full bg-gray-800 flex justify-center items-center cursor-pointer'}

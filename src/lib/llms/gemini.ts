@@ -139,7 +139,7 @@ export class GeminiChatService {
 		history: Content[],
 		passInitPrompt?: boolean,
 	): Promise<string> {
-		const initMessage = initAI().initPrompt as unknown as Content;
+		const initMessage = initAI().initPrompt as unknown as Content[];
 		const messageContent: string | (string | Part)[] = [
 			{
 				text: message.textContent,
@@ -158,7 +158,7 @@ export class GeminiChatService {
 		const chatSession = this.model.startChat({
 			generationConfig: this.generationConfig,
 			safetySettings: this.safetySettings,
-			history: passInitPrompt ? [initMessage, ...history] : history,
+			history: passInitPrompt ? [...initMessage, ...history] : history,
 		});
 
 		const result = await chatSession.sendMessage(messageContent);
