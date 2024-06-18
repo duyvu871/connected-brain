@@ -7,7 +7,6 @@
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/PopoverComponent/VoiceRecord.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PopoverComponent/VoiceRecord.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/llms/gemini.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/gemini.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/llms/init.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/init.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +177,7 @@
       <workItem from="1718184323376" duration="9794000" />
       <workItem from="1718232679641" duration="26136000" />
       <workItem from="1718445075765" duration="203000" />
-      <workItem from="1718445349703" duration="40071000" />
+      <workItem from="1718445349703" duration="44293000" />
     </task>
     <servers />
   </component>

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoMicSharp } from 'react-icons/io5';
 import { useToggle } from 'usehooks-ts';
@@ -22,7 +23,8 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const animationMicRef = useRef<HTMLDivElement | null>(null);
-	const animationFrameID = useRef<number | null>(null);
+	// const intervalIdRef = useRef<Nodejs.Time | null>(null);
+
 	useEffect(() => {
 
 		return () => {
@@ -49,20 +51,20 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 		}
 	};
 
-	const animateMic = () => {
-		animationFrameID.current = window.requestAnimationFrame(animateMic);
+	// const animateMic = () => {
+	// 	animationFrameID.current = window.requestAnimationFrame(animateMic);
+	//
+	// 	if (animationMicRef.current) {
+	// 		// console.log('currentVolume', currentVolume);
+	// 		animationMicRef.current.style.transform = `scale(${1 + currentVolume / 255})`;
+	// 	}
+	// };
 
-		if (animationMicRef.current) {
-			// console.log('currentVolume', currentVolume);
-			animationMicRef.current.style.transform = `scale(${1 + currentVolume / 255})`;
-		}
-	};
-
-	const stopAnimateMic = () => {
-		if (animationFrameID.current) {
-			window.cancelAnimationFrame(animationFrameID.current);
-		}
-	};
+	// const stopAnimateMic = () => {
+	// 	if (animationFrameID.current) {
+	// 		window.cancelAnimationFrame(animationFrameID.current);
+	// 	}
+	// };
 
 	const getAudioStream = async () => {
 		try {
@@ -90,11 +92,23 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 				setCurrentVolume(average); // Chuẩn hóa giá trị về [0, 1]
 			}, 100);
 
+			intervalIdRef.current = intervalId;
+
 			// Khởi tạo MediaRecorder để ghi âm
 			mediaRecorderRef.current = new MediaRecorder(stream);
 			mediaRecorderRef.current.ondataavailable = (event) => {
 				setAudioBlob(event.data);
 			};
+
+			if (!isRecording) {
+				handleStartRecording();
+				toggleRecordingState();
+			} else {
+				clearInterval(intervalId);
+				handleStopRecording();
+				toggleRecordingState();
+				return;
+			}
 
 			return () => {
 				clearInterval(intervalId);
@@ -113,26 +127,14 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 	const handleStartRecording = () => {
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.start();
-			setIsRecording(true);
+			// setIsRecording(true);
 		}
 	};
 
 	const handleStopRecording = () => {
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.stop();
-			setIsRecording(false);
-		}
-	};
-
-	const toggleRecording = () => {
-		toggleRecordingState();
-		console.log('isRecording', isRecording);
-		if (isRecording) {
-			handleStartRecording();
-			getAudioStream();
-		} else {
-			stopAnimateMic();
-			handleStopRecording();
+			// setIsRecording(false);
 		}
 	};
 
@@ -146,11 +148,13 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 				<div
 					className={'record-mic relative z-[801] w-10 h-10 rounded-full bg-gray-800 flex justify-center items-center cursor-pointer'}
 					onClick={() => {
-						// getAudioStream();
-						toggleRecording();
+						getAudioStream();
 					}}
+					data-start-record={isRecording}
 				>
-					<IoMicSharp className={'text-white'} size={24} />
+					<IoMicSharp className={cn('text-white transition-all', {
+						'text-red-500': isRecording,
+					})} size={24} />
 				</div>
 			</div>
 			{/*<button onClick={handleStartRecording} disabled={isRecording} className={cn({*/}
