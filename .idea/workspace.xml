@@ -5,10 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
+      <change afterPath="$PROJECT_DIR$/src/components/PopoverComponent/VoiceRecord.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/ContentMedia.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/InputMessage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/InputWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/MessageListRender.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/Modals/VoiceRecordModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/google_cloud/speech_to_text.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(feature)/feature/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(feature)/feature/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UploadPopover/UploadPopover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UploadPopover/UploadPopover.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BaseLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BaseLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/FeatureNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/FeatureNavbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/NextUISidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/NextUISidebar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/AppChatbot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/AppChatbot.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/modalReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/modalReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +36,8 @@
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -89,7 +104,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "product",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "F:/CODE/connected-brain/front-end/src/hooks",
+    "last_opened_file_path": "F:/CODE/connected-brain/front-end/src/components/PopoverComponent",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
@@ -105,24 +120,24 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\src\components\PopoverComponent" />
       <recent name="F:\CODE\connected-brain\front-end\src\hooks" />
       <recent name="F:\CODE\connected-brain\front-end\src\utils" />
       <recent name="F:\CODE\connected-brain\front-end\src" />
       <recent name="F:\CODE\connected-brain\front-end" />
-      <recent name="F:\CODE\connected-brain\front-end\src\components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\src\lib\google_cloud" />
+      <recent name="F:\CODE\connected-brain\front-end\src\components\PopoverComponent" />
       <recent name="F:\CODE\connected-brain\front-end\src\containers\Feature" />
       <recent name="F:\CODE\connected-brain\front-end\public\graphics" />
       <recent name="F:\CODE\connected-brain\front-end\public" />
-      <recent name="F:\CODE\connected-brain\front-end\src\app\(auth)" />
-      <recent name="F:\CODE\connected-brain\front-end\public\preview-images" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17011.90" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17890.13" />
       </set>
     </attachedChunks>
   </component>
@@ -176,7 +191,9 @@
       <workItem from="1717581753712" duration="284000" />
       <workItem from="1717755975478" duration="45198000" />
       <workItem from="1718184323376" duration="9794000" />
-      <workItem from="1718232679641" duration="24983000" />
+      <workItem from="1718232679641" duration="26136000" />
+      <workItem from="1718445075765" duration="203000" />
+      <workItem from="1718445349703" duration="38352000" />
     </task>
     <servers />
   </component>

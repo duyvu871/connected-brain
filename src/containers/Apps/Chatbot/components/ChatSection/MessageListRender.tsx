@@ -1,36 +1,23 @@
-'use client';
-import React, { forwardRef, memo, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { Icons } from '@/components/icons';
-import { useAuth } from '@/hooks/useAuth';
-// import { messages } from '@/containers/Apps/Chatbot/example_data/chat';
-import { BsFillSendFill } from 'react-icons/bs';
-import { MdOutlineFileUpload } from 'react-icons/md';
-import Tooltip from '@/components/Tooltip';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/reducers';
 import { useChatbot } from '@/contexts/ChatbotContext';
+import React, { forwardRef, useEffect } from 'react';
 import LaunchScreen from '@/containers/Apps/Chatbot/components/LaunchScreen';
-import AutoResizeQuill from '@/containers/Apps/Chatbot/components/Textarea';
 import { LeftChat } from '@/components/SkeletonLoad/ChatSection';
+import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { IoIosArrowDown } from 'react-icons/io';
-import Copy from '@/components/CopyToClipBoard';
-import markdownToTxt from 'markdown-to-txt';
-import Markdown from '@/components/Markdown';
+import { useAuth } from '@/hooks/useAuth';
+import useUID from '@/hooks/useUID';
 import { NewChatMessageEnum } from 'types/apps/chatbot/api.type';
+import { Icons } from '@/components/icons';
+import Markdown from '@/components/Markdown';
+import { Image } from '@nextui-org/react';
+import Tooltip from '@/components/Tooltip';
 import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
-import UploadModal from '@/containers/Apps/Chatbot/components/Modals/UploadModal';
-import useUID from '@/hooks/useUID';
-import { Image } from '@nextui-org/react';
-import { LiaTimesSolid } from 'react-icons/lia';
-
-interface ChatSectionProps {
-	classNames?: {
-		wrapper?: string;
-	};
-};
+import Copy from '@/components/CopyToClipBoard';
+import markdownToTxt from 'markdown-to-txt';
 
 type ChatMessageProps = {
 	classNames?: {
@@ -43,6 +30,7 @@ type ChatMessageProps = {
 	contentMedia?: string[];
 	isNewMessage?: boolean;
 };
+
 
 const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React.ComponentPropsWithoutRef<'div'> & ChatMessageProps>(
 	({ classNames, children, role, content, contentMedia, isNewMessage = false, ...props }, ref) => {
@@ -134,7 +122,7 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 ChatMessage.displayName = 'ChatMessage';
 
 
-export function MessageListRender() {
+export default function MessageListRender() {
 	const messages = useSelector((state: RootState) => state.chat.messages);
 	const { newMessageId, isNewSection, isSending } = useChatbot();
 	const [isShowScrollTo, setIsShowScrollTo] = React.useState<boolean>(false);
@@ -240,142 +228,3 @@ export function MessageListRender() {
 		</>
 	);
 }
-
-const ContentMediaItem = memo(({ media, index, removeItemAction }: {
-	media: string;
-	index: number;
-	removeItemAction: (index: number) => void
-}) => {
-	return (
-		<div className={'relative w-24 h-28'}>
-			<div
-				className={'w-full h-full relative rounded-xl flex justify-center items-center bg-gray-800 overflow-hidden'}>
-				<Image src={media} radius={'lg'} alt={'media'} className={'w-full h-full object-cover'} />
-			</div>
-			<button onClick={() => {
-				removeItemAction(index);
-			}}
-							className={'w-5 h-5 rounded-full flex justify-center items-center bg-gray-600 hover:bg-gray-500 hover:text-white transition-all absolute top-0 right-0 z-[100] translate-x-[30%] translate-y-[-30%]'}>
-				<LiaTimesSolid />
-			</button>
-		</div>
-	);
-});
-ContentMediaItem.displayName = 'ContentMediaItem';
-
-function ContentMediaList() {
-	const { contentMedia, setContentMedia } = useChatbot();
-	const [generateUID] = useUID();
-	const deleteItem = React.useCallback((indexToDelete: number) => {
-		setContentMedia((prevContent) =>
-			prevContent.filter((item, index) => index !== indexToDelete),
-		);
-	}, []);
-	if (contentMedia.length === 0) return null;
-	return (
-		<div className={'flex p-2 m-2 gap-4 justify-start w-full'}>
-			{contentMedia.map((media, index) => (
-				<ContentMediaItem
-					key={'media-content_' + generateUID()}
-					media={media}
-					index={index}
-					removeItemAction={deleteItem} />
-			))}
-		</div>
-	);
-}
-
-const ContentMediaMemo = memo(ContentMediaList);
-
-function InputMessage(
-	{
-		action,
-	}: {
-		action?: {
-			sendMessage: (message: string, mediaContent?: string[]) => void;
-		};
-	}) {
-	const { contentMedia, setContentMedia } = useChatbot();
-	const [promptText, setPromptText] = React.useState<string>('');
-	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
-	const [isSendMessage, setIsSendMessage] = React.useState<boolean>(false);
-
-	return (
-		<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
-			<AutoResizeQuill
-				isDisabled={false}
-				placeholder={'Type a message'}
-				value={promptText}
-				className={cn(
-					'w-full bg-transparent outline-none max-h-52 resize-none text-white',
-					isTooLong ? 'h-fit p-4' : 'h-14',
-				)}
-				onContentChange={setPromptText}
-				isClear={isSendMessage}
-				setIsTooLong={setIsTooLong}
-				event={{
-					onEnter: () => {
-						// console.log(promptText);
-						if (promptText === '') return;
-						action.sendMessage(promptText, contentMedia);
-						setContentMedia([]);
-					},
-				}}
-			/>
-			<div
-				className={cn('flex flex-row justify-end items-center gap-2', isTooLong ? 'w-full ' : 'w-fit')}>
-				<Tooltip title={'Upload'}>
-					<UploadModal>
-						<div
-							className={'p-2 aspect-square flex justify-center items-center rounded-full bg-gray-600 cursor-pointer'}>
-							<MdOutlineFileUpload className={'text-white'} size={26} />
-						</div>
-					</UploadModal>
-				</Tooltip>
-				<Tooltip title={'Generate prompt'}>
-					<div className={'p-3 rounded-full bg-gray-600 cursor-pointer'} onClick={() => {
-						if (promptText === '') {
-							// setPromptText('Chủ đề đáng chú ý');
-							return;
-						}
-						action.sendMessage(promptText, contentMedia);
-						setContentMedia([]);
-						setIsSendMessage(true);
-						setPromptText('');
-					}}>
-						<BsFillSendFill className={'text-white'} />
-					</div>
-				</Tooltip>
-			</div>
-		</div>
-	);
-}
-
-function InputWrapper() {
-	const { sendMessage } = useChatbot();
-
-	return (
-		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
-			<ContentMediaMemo />
-			<InputMessage action={{
-				sendMessage,
-			}} />
-		</div>
-	);
-}
-
-function ChatSection({ classNames }: ChatSectionProps) {
-	return (
-		<div
-			className={cn(' shadow rounded-2xl p-2 md:p-4 pt-0 pr-0  w-full h-full mx-auto flex flex-col justify-between items-center relative', classNames?.wrapper || '')}>
-			<MessageListRender />
-			<div className={'w-full h-fit flex flex-col justify-center items-center relative max-w-3xl pr-4'}>
-				<div className={'w-full h-14 bg-gradient-to-t from-[background-hero] absolute top-[-100%]'}></div>
-				<InputWrapper />
-				<div className={'absolute'}></div>
-			</div>
-		</div>
-	);
-}
-
-export default ChatSection;

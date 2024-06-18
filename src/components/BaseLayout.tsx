@@ -11,8 +11,9 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
 	return (
 		// <div className="layout">
 		<>
-			<NextUiSidebar />
-			<main className="layout__main-content h-[100vh] overflow-x-hidden overflow-y-auto bg-[--background-hero]/80">
+
+			<main className="flex-1 flex-col h-full max-w-full overflow-hidden bg-[--background-hero]/80">
+				<NextUiSidebar />
 				{children}
 			</main>
 			{/*// </div>*/}

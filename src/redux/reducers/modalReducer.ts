@@ -4,7 +4,9 @@ export interface ModalState {
 	[key: string]: boolean;
 }
 
-const initialModalState: ModalState = {};
+const initialModalState: ModalState = {
+	history_modal: false,
+};
 
 export const modalReducer = (state = initialModalState, action: ModalAction): ModalState => {
 	switch (action.type) {

@@ -27,7 +27,7 @@ export default function RootLayout({
 		{/*</Head>*/}
 		<body
 			className={cn(
-				'min-h-screen flex justify-center items-center w-full h-full bg-background font-sans antialiased bg-[#0c0d0f]',
+				'flex justify-center items-center w-full h-full bg-background font-sans antialiased bg-[#0c0d0f]',
 				fontSans.variable)}
 		>
 		{children}

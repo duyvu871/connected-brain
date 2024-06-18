@@ -119,28 +119,6 @@ function NextUiSidebar(
 	return (
 		<div className="sidebar__wrapper w-fit flex flex-col fixed left-0 top-0 bg-[--background-hero]"
 				 data-collapse={isCollapsed}>
-			{/*<button className={'btn top-16'} onClick={toggleSidebarCollapse}>*/}
-			{/*	{isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}*/}
-			{/*</button>*/}
-			{/*<div className={cn('h-16 border-r-[1px] border-gray-800 flex',*/}
-			{/*	{*/}
-			{/*		'border-b-[1px]': true,*/}
-			{/*	})}>*/}
-			{/*	<div*/}
-			{/*		className={('w-full flex justify-center items-center cursor-pointer gap-2 m-0 p-2')}*/}
-			{/*		onClick={() => {*/}
-			{/*			router.push('/');*/}
-			{/*		}}>*/}
-			{/*		<Icons.logo className="h-8 w-8 fill-blue-400" />*/}
-			{/*		<p className={cn(*/}
-			{/*			'sidebar__logo-name text-md flex flex-col leading-5 hidden md:block',*/}
-			{/*			isCollapsed ? 'hidden' : '',*/}
-			{/*		)}>*/}
-			{/*			<span>Connected</span>*/}
-			{/*			<span>Brain</span>*/}
-			{/*		</p>*/}
-			{/*	</div>*/}
-			{/*</div>*/}
 			<aside
 				className="w-60 h-screen transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.1)] p-2 flex flex-col gap-2 justify-between items-center bg-[--background-hero] border-r-[1px] border-gray-800 absolute z-[150]"
 				data-collapse={isCollapsed}
