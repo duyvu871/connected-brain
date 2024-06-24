@@ -28,6 +28,7 @@ interface Message {
 }
 
 interface ChatbotContextType {
+	isLoadMessage: boolean;
 	newMessageId: string;
 	promptText: string;
 	contentMedia: string[];
@@ -45,6 +46,7 @@ interface ChatbotContextType {
 }
 
 const defaultContext: ChatbotContextType = {
+	isLoadMessage: false,
 	newMessageId: '',
 	contentMedia: [],
 	promptText: '',
@@ -252,7 +254,10 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 				clearMessages();
 				setIsNewSection(false);
 				(async () => {
-					await getChatHistory(chat_id);
+					setIsLoadMessage(true);
+					await getChatHistory(chat_id).then(() => {
+						setIsLoadMessage(false);
+					});
 				})();
 			} else {
 				setIsNewSection(true);
@@ -275,6 +280,7 @@ function ChatbotProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<ChatbotContext.Provider
 			value={{
+				isLoadMessage,
 				contentMedia,
 				setContentMedia,
 				updateChatHistory,

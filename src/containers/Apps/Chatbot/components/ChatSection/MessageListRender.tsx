@@ -39,7 +39,7 @@ const ChatMessage = forwardRef<React.ElementRef<'div'> & ChatMessageProps, React
 		const messageListClass = cn('flex flex-col gap-1 w-full', classNames?.chatList || '');
 		const { user } = useAuth();
 		const [generateUID] = useUID();
-		if (isNewMessage && content === NewChatMessageEnum.NEW_MESSAGE && isAssistant) {
+		if (content === NewChatMessageEnum.NEW_MESSAGE && isAssistant) {
 			return <LeftChat />;
 		}
 
@@ -124,7 +124,7 @@ ChatMessage.displayName = 'ChatMessage';
 
 export default function MessageListRender() {
 	const messages = useSelector((state: RootState) => state.chat.messages);
-	const { newMessageId, isNewSection, isSending } = useChatbot();
+	const { newMessageId, isNewSection, isSending, isLoadMessage } = useChatbot();
 	const [isShowScrollTo, setIsShowScrollTo] = React.useState<boolean>(false);
 
 	const messageWrapperRef = React.useRef<HTMLDivElement & ChatMessageProps>(null);
@@ -179,7 +179,7 @@ export default function MessageListRender() {
 					<LaunchScreen />
 					: (
 						<div className={'max-w-3xl w-full flex flex-col justify-center gap-5 h-fit px-2 relative'}>
-							{messages.length === 0 && (
+							{isLoadMessage && (
 								<>
 									<LeftChat />
 									<LeftChat classnames={{
