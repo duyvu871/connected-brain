@@ -8,6 +8,7 @@ import { MdOutlineFileUpload } from 'react-icons/md';
 import { BsFillSendFill } from 'react-icons/bs';
 import { IoMicSharp } from 'react-icons/io5';
 import VoiceRecordModal from '@/containers/Apps/Chatbot/components/Modals/VoiceRecordModal';
+import store from '@/redux/store';
 
 export default function InputMessage(
 	{
@@ -21,6 +22,10 @@ export default function InputMessage(
 	const [promptText, setPromptText] = React.useState<string>('');
 	const [isTooLong, setIsTooLong] = React.useState<boolean>(false);
 	const [isSendMessage, setIsSendMessage] = React.useState<boolean>(false);
+
+	const updateInputValue = (value: string) => {
+		store.dispatch({ type: 'UPDATE_INPUT', payload: value });
+	};
 
 	return (
 		<div className={cn('flex justify-between items-center p-2', isTooLong ? 'flex-col' : '')}>
@@ -66,10 +71,12 @@ export default function InputMessage(
 						if (promptText === '') {
 							return;
 						}
-						action.sendMessage(promptText, contentMedia);
 						setContentMedia([]);
-						setIsSendMessage(true);
+						// setIsSendMessage(true);
 						setPromptText('');
+						updateInputValue('');
+						action.sendMessage(promptText, contentMedia);
+						// setIsSendMessage(false);
 					}}>
 						<BsFillSendFill className={'text-white'} />
 					</div>
