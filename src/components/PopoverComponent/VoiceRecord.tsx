@@ -1,36 +1,27 @@
 import { cn } from '@/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoMicSharp } from 'react-icons/io5';
-import { useToggle } from 'usehooks-ts';
+import AudioPlayer from '@/containers/Apps/Chatbot/components/ChatSection/AudioPlayer';
 
 interface VoiceRecordModalProps {
 	setTextContent?: (text: string) => void;
-};
-
-type AudioState = {
-	isRecording: boolean;
-	audioBlob: Blob | null;
 }
 
 function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
-	// const [isRecording, setIsRecording] = useState(false);
-	const [audioBlob, setAudioBlob] = useState(null);
-	const [currentVolume, setCurrentVolume] = useState(0);
-	const [animationMic, setAnimationMic] = useState(0);
-
-	const [isRecording, toggleRecordingState, setIsRecording] = useToggle(false);
+	const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+	const [audioBase64, setAudioBase64] = useState<string | null>(null);
+	const [isRecording, setIsRecording] = useState(false);
+	const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const audioContextRef = useRef<AudioContext | null>(null);
 	const animationMicRef = useRef<HTMLDivElement | null>(null);
-	// const intervalIdRef = useRef<Nodejs.Time | null>(null);
+	const analyserRef = useRef<AnalyserNode | null>(null);
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
-
 		return () => {
-			if (mediaRecorderRef.current) {
-				mediaRecorderRef.current.stop();
-			}
+			// stopRecording();
 			if (audioContextRef.current) {
 				audioContextRef.current.close();
 			}
@@ -38,140 +29,145 @@ function VoiceRecord({ setTextContent }: VoiceRecordModalProps) {
 	}, []);
 
 	const SpeechToText = async (audioBlob: Blob) => {
-		const formData = new FormData();
-		formData.append('file', audioBlob);
-		const response = await fetch('https://api.speechtext.ai/api/v1/speech-to-text', {
-			method: 'POST',
-			body: formData,
-		});
-		const data = await response.json();
-		console.log(data);
-		if (setTextContent) {
-			setTextContent(data.text);
+		try {
+			const formData = new FormData();
+			formData.append('file', audioBlob);
+			const response = await fetch('https://ai.connectedbrain.com.vn/api/v1/nlp/audio', {
+				method: 'POST',
+				// headers: {
+				// 	'content-type': 'multipart/form-data',
+				// },
+				body: formData,
+			});
+			const data = await response.json();
+			console.log(data);
+			if (setTextContent) {
+				setTextContent(data.text);
+			}
+		} catch (error) {
+			console.error('Error during speech to text:', error);
 		}
 	};
 
-	// const animateMic = () => {
-	// 	animationFrameID.current = window.requestAnimationFrame(animateMic);
-	//
-	// 	if (animationMicRef.current) {
-	// 		// console.log('currentVolume', currentVolume);
-	// 		animationMicRef.current.style.transform = `scale(${1 + currentVolume / 255})`;
-	// 	}
-	// };
+	const resetAnimationMic = () => {
+		if (animationMicRef.current) {
+			clearInterval(intervalRef.current as NodeJS.Timeout);
+			animationMicRef.current.style.transform = 'scale(1)';
+		}
+	};
 
-	// const stopAnimateMic = () => {
-	// 	if (animationFrameID.current) {
-	// 		window.cancelAnimationFrame(animationFrameID.current);
-	// 	}
-	// };
+	const animateMic = () => {
+		intervalRef.current = setInterval(() => {
+			if (analyserRef.current && animationMicRef.current) {
+				const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+				analyserRef.current.getByteTimeDomainData(dataArray);
+				const average = dataArray.reduce((sum, value) => sum + value, 0) / dataArray.length;
+				animationMicRef.current.style.transform = `scale(${1 + (average - 126) / 5})`;
+			}
+		}, 100);
+	};
 
-	const getAudioStream = async () => {
+	const startRecording = async () => {
 		try {
+			setAudioBlob(null);
+			setAudioBase64(null);
 			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-			const audioTrack = stream.getAudioTracks()[0];
-
-			// Khởi tạo AudioContext để phân tích âm thanh
 			audioContextRef.current = new AudioContext();
 			const source = audioContextRef.current.createMediaStreamSource(stream);
+			analyserRef.current = audioContextRef.current.createAnalyser();
+			analyserRef.current.fftSize = 2048;
+			source.connect(analyserRef.current);
 
-			// Tạo nút để theo dõi âm lượng
-			const analyser = audioContextRef.current.createAnalyser();
-			analyser.fftSize = 2048; // Chọn kích thước FFT
-			source.connect(analyser);
-
-			// Cập nhật mức âm lượng mỗi 100ms
-			const intervalId = setInterval(() => {
-				const dataArray = new Uint8Array(analyser.frequencyBinCount);
-				analyser.getByteTimeDomainData(dataArray);
-				const average = dataArray.reduce((sum, value) => sum + value, 0) / dataArray.length;
-				if (animationMicRef.current) {
-					// console.log('currentVolume', currentVolume);
-					animationMicRef.current.style.transform = `scale(${1 + (average - 127) / 5})`;
-				}
-				setCurrentVolume(average); // Chuẩn hóa giá trị về [0, 1]
-			}, 100);
-
-			intervalIdRef.current = intervalId;
-
-			// Khởi tạo MediaRecorder để ghi âm
 			mediaRecorderRef.current = new MediaRecorder(stream);
+			const audioChunks: Blob[] = [];
 			mediaRecorderRef.current.ondataavailable = (event) => {
-				setAudioBlob(event.data);
+				audioChunks.push(event.data);
 			};
 
-			if (!isRecording) {
-				handleStartRecording();
-				toggleRecordingState();
-			} else {
-				clearInterval(intervalId);
-				handleStopRecording();
-				toggleRecordingState();
-				return;
-			}
-
-			return () => {
-				clearInterval(intervalId);
-				if (mediaRecorderRef.current) {
-					mediaRecorderRef.current.stop();
-				}
-				if (audioContextRef.current) {
-					audioContextRef.current.close();
-				}
+			mediaRecorderRef.current.onstop = () => {
+				const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+				setAudioBlob(audioBlob);
+				convertBlobToBase64(audioBlob);
 			};
-		} catch (error) {
-			console.error('Lỗi khi lấy luồng âm thanh:', error);
-		}
-	};
 
-	const handleStartRecording = () => {
-		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.start();
-			// setIsRecording(true);
+			setIsRecording(true);
+			animateMic();
+		} catch (err) {
+			console.error('Error accessing microphone:', err);
 		}
 	};
 
-	const handleStopRecording = () => {
-		if (mediaRecorderRef.current) {
+	const stopRecording = () => {
+		resetAnimationMic();
+		if (audioBlob) {
+			createBlobUrl(audioBlob as Blob);
+		}
+		if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
 			mediaRecorderRef.current.stop();
-			// setIsRecording(false);
+			setIsRecording(false);
+		}
+	};
+
+	const convertBlobToBase64 = (blob: Blob) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(blob);
+		reader.onloadend = () => {
+			const base64data = reader.result;
+			setAudioBase64(base64data as string);
+		};
+	};
+
+	const createBlobUrl = (blob: Blob) => {
+		console.log(blob);
+		const url = URL.createObjectURL(blob);
+		setBlobUrl(url);
+	};
+
+	const handleRecordingToggle = () => {
+		if (isRecording) {
+			stopRecording();
+		} else {
+			startRecording();
 		}
 	};
 
 	return (
-		<div className={'flex flex-col justify-center items-center'}>
+		<div className={'flex flex-col justify-center items-center p-2 gap-4'}>
+			<div className={'flex justify-center items-center p-2 gap-2'}>
+				{
+					audioBase64 &&
+					<>
+						<AudioPlayer src={audioBase64} />
+						<button
+							className={'p-2 bg-gray-900 text-white rounded-md hover:bg-gray-900/70 transition-all'}
+							onClick={() => SpeechToText(audioBlob as Blob)}
+						>Transcribe
+						</button>
+					</>
+				}
+
+			</div>
 			<div
-				className={'relative w-full h-20 flex justify-center items-center'}>
+				className={'relative w-fit h-20 flex justify-center items-center'}
+			>
 				<div
 					className={'absolute z-[800] w-12 h-12 rounded-full transition-all bg-gray-600'}
-					ref={animationMicRef}></div>
+					ref={animationMicRef}
+				></div>
 				<div
 					className={'record-mic relative z-[801] w-10 h-10 rounded-full bg-gray-800 flex justify-center items-center cursor-pointer'}
-					onClick={() => {
-						getAudioStream();
-					}}
+					onClick={handleRecordingToggle}
 					data-start-record={isRecording}
 				>
-					<IoMicSharp className={cn('text-white transition-all', {
-						'text-red-500': isRecording,
-					})} size={24} />
+					<IoMicSharp
+						className={cn('text-white transition-all', {
+							'text-red-500': isRecording,
+						})}
+						size={24}
+					/>
 				</div>
 			</div>
-			{/*<button onClick={handleStartRecording} disabled={isRecording} className={cn({*/}
-			{/*	'text-red-500': isRecording,*/}
-			{/*})}>*/}
-			{/*	Bắt đầu ghi âm*/}
-			{/*</button>*/}
-			{/*<button onClick={handleStopRecording} disabled={!isRecording}>*/}
-			{/*	Dừng ghi âm*/}
-			{/*</button>*/}
-			{/*<p>Mức âm lượng hiện tại: {currentVolume.toFixed(2)}</p>*/}
-			{/*{audioBlob && (*/}
-			{/*	<audio controls>*/}
-			{/*		<source src={URL.createObjectURL(audioBlob)} type="audio/wav" />*/}
-			{/*		Your browser does not support the audio element.*/}
-			{/*	</audio>*/}
-			{/*)}*/}
 		</div>
 	);
 }

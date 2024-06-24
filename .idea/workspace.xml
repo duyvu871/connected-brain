@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/AudioPlayer.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/PopoverComponent/VoiceRecord.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PopoverComponent/VoiceRecord.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/llms/init.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/llms/init.ts" afterDir="false" />
@@ -20,8 +21,8 @@
         <option value="JavaScript File" />
         <option value="tsconfig.json" />
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -82,26 +83,26 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "product",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "F:/CODE/connected-brain/front-end/src/components/PopoverComponent",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Sass/SCSS",
-    "ts.external.directory.path": "F:\\CODE\\connected-brain\\front-end\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;product&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/CODE/connected-brain/front-end/src/components/PopoverComponent&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Sass/SCSS&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;F:\\CODE\\connected-brain\\front-end\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\CODE\connected-brain\front-end\src\components\PopoverComponent" />
@@ -121,7 +122,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17890.13" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
       </set>
     </attachedChunks>
   </component>
@@ -177,7 +178,10 @@
       <workItem from="1718184323376" duration="9794000" />
       <workItem from="1718232679641" duration="26136000" />
       <workItem from="1718445075765" duration="203000" />
-      <workItem from="1718445349703" duration="44293000" />
+      <workItem from="1718445349703" duration="60249000" />
+      <workItem from="1718802950743" duration="9887000" />
+      <workItem from="1719155898302" duration="548000" />
+      <workItem from="1719204495576" duration="597000" />
     </task>
     <servers />
   </component>
