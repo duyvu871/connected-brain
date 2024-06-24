@@ -5,6 +5,8 @@ import { ObjectId } from 'mongodb';
 import { dataTemplate } from '@/helpers/returned_response_template';
 import { getServerAuthSession } from '@/lib/nextauthOptions';
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
 	try {
 		const session = await getServerAuthSession();

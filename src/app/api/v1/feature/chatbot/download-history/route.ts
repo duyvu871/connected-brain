@@ -6,6 +6,8 @@ import { ChatbotService } from '@/services/Chatbot/chatbot.service';
 import { ObjectId } from 'mongodb';
 import markdownToTxt from 'markdown-to-txt';
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
 	try {
 		const session = await getServerAuthSession();
