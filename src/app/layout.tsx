@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import '@mantine/core/styles.css';
 import '../styles/globals.css';
+import '@mantine/core/styles.css';
 import { cn } from '@/lib/utils';
 
 const fontSans = FontSans({
@@ -27,7 +27,7 @@ export default function RootLayout({
 		{/*</Head>*/}
 		<body
 			className={cn(
-				'flex justify-center items-center w-full h-full bg-background font-sans antialiased bg-[#0c0d0f]',
+				'flex justify-center items-center w-full min-h-screen h-fit font-sans antialiased bg-[#0c0d0f]',
 				fontSans.variable)}
 		>
 		{children}

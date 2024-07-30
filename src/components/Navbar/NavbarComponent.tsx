@@ -335,7 +335,7 @@ export function NavigationMenuDemo() {
 
 				</NavigationMenuList>
 				<NavigationMenuList>
-					<NavigationMenuItem className={'hidden md:flex flex-row justify-center items-center gap-1'}>
+					<NavigationMenuItem className={'hidden md:flex flex-row justify-center items-center gap-1 bg-transparent'}>
 						<Link href="/auth/method?type=login" passHref>
 							<NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-bold')}>
 								Login
@@ -343,7 +343,7 @@ export function NavigationMenuDemo() {
 						</Link>
 						<Link href="/auth/method?type=register" passHref className={'block'}>
 							<NavigationMenuLink
-								className={cn(navigationMenuTriggerStyle(), 'w-fit h-fit rounded-xl text-gray-200')}>
+								className={cn(navigationMenuTriggerStyle(), 'w-fit h-fit rounded-xl text-gray-200 bg-transparent')}>
 								<Button
 									variant={'outline'}
 									className={'font-bold border-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-900'}>Register</Button>

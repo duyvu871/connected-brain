@@ -12,7 +12,7 @@ function FeatureDetailPage({}: FeatureDetailPageProps) {
 	return (
 		<>
 			<FeatureNavbar />
-			<div className={'w-full h-full p-5 pt-16'}>
+			<div className={'w-full p-5 pt-16 flex-grow'}>
 				<HeaderInner />
 				<HeroBanner
 					justify={'center'}

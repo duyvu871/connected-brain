@@ -2,7 +2,7 @@ import clientPromise from '@/lib/mongodb';
 import bcrypt from 'bcrypt';
 import { extractProperties } from '@/helpers/extractProperties';
 import { UserInterface } from 'types/user.type';
-import { WithId } from 'mongodb';
+import * as process from 'node:process';
 
 type UserRecord<T extends 'username' | 'password' | 'role'> = T extends 'role'
 	? {
@@ -22,6 +22,8 @@ type UserRecord<T extends 'username' | 'password' | 'role'> = T extends 'role'
 		: T extends 'password'
 			? { password: string }
 			: never;
+
+type LoginResponse = { user: UserInterface & { id: string }, token: { accessToken: string, refreshToken: string } };
 
 /**
  * Sign in with the given credentials
@@ -63,26 +65,47 @@ export async function signIn(credentials: UserRecord<'role'> | undefined) {
 		}
 		return extractProperties(admin, ['email', 'role', 'uid', '_id']);
 	}
-	const usersCollection = client
-		.db(process.env.DB_NAME)
-		.collection('users');
+
 
 	const email = credentials?.email;
-	const user = await usersCollection.findOne({ email }) as WithId<UserInterface> | null;
+	const password = credentials?.password;
 
-	if (!user) {
-		throw new Error('User does not exist.');
+	const myHeaders = new Headers();
+	myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+
+	const urlencoded = new URLSearchParams();
+	urlencoded.append('email', email);
+	urlencoded.append('password', password);
+
+	const requestOptions = {
+		method: 'POST',
+		headers: myHeaders,
+		body: urlencoded,
+		// redirect: "follow"
+	};
+
+	const response = await fetch(process.env.API_ENDPOINT + '/api/v1/auth/login', requestOptions);
+	const result = await response.json();
+	// console.log(result);
+	if (response.status !== 200) {
+		// @ts-ignore
+		throw new Error(result.errors || result.message);
 	}
+	const { user, token } = result;
+	const extractedUser = extractProperties(user, ['email', 'role', 'uid', 'id']);
+	const changeKey = {
+		id: '_id',
+	};
 
-	const passwordIsValid = await bcrypt.compare(
-		credentials?.password!,
-		user.password,
-	);
+	const userPayload = Object.keys(extractedUser).reduce((acc, key) => {
+		const newKey = changeKey[key] || key;
+		acc[newKey] = extractedUser[key];
+		return acc;
+	}, {} as Record<string, string>);
 
-	if (!passwordIsValid) {
-		throw new Error('Password is wrong');
-	}
-
-	return extractProperties(user, ['username', 'role', 'balance', '_id']);
+	return {
+		userPayload,
+		accessToken: token.accessToken,
+	};
 }
 

@@ -10,6 +10,7 @@ export const nextauthOptions: AuthOptions = {
 		strategy: 'jwt',
 		maxAge: 24 * 60 * 60, // 24 hours
 	},
+
 	providers: [
 		CredentialsProvider({
 			type: 'credentials',
@@ -44,12 +45,17 @@ export const nextauthOptions: AuthOptions = {
 	callbacks: {
 		async jwt({ token, account, user }) {
 			if (user) {
-				token.user_data = user as unknown as UserSessionPayload;
+				token.user_data = user?.userPayload as unknown as UserSessionPayload;
+				token.accessToken = user?.accessToken;
 			}
 			return token;
 		},
 		async session({ session, token }) {
 			session.user = token.user_data as UserSessionPayload;
+			// console.log('session', token);
+
+			// @ts-ignore
+			session.token = token.accessToken;
 			return session;
 		},
 	},

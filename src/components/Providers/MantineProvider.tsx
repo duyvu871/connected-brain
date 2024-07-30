@@ -1,8 +1,19 @@
 'use client';
 import React from 'react';
-import { createTheme, MantineProvider } from '@mantine/core';
+import { createTheme, Loader, MantineProvider } from '@mantine/core';
+import RingLoader from '@/components/Loaders/RingLoader';
 
-const theme = createTheme({});
+
+const theme = createTheme({
+	components: {
+		Loader: Loader.extend({
+			defaultProps: {
+				loaders: { ...Loader.defaultLoaders, ring: RingLoader },
+				type: 'ring',
+			},
+		}),
+	},
+});
 
 
 interface MantineProviderProps {

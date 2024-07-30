@@ -12,7 +12,6 @@ export default function InputWrapper() {
 			<InputMessage action={{
 				sendMessage,
 			}} />
-
 		</div>
 	);
 }

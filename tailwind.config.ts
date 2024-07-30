@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import { fontFamily } from 'tailwindcss/defaultTheme';
+import { nextui } from '@nextui-org/react';
 
 const config = {
 	darkMode: ['class'],
@@ -8,12 +9,13 @@ const config = {
 		'./components/**/*.{ts,tsx}',
 		'./app/**/*.{ts,tsx}',
 		'./src/**/*.{ts,tsx}',
-		'./containers/**/*.{ts,tsx}',
+		'./src/containers/**/*.{ts,tsx}',
+		'./src/utils/**/*.{ts,tsx}',
+		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
 	],
 	prefix: '',
 	theme: {
 		extend: {
-
 			fontFamily: {
 				sans: ['var(--font-sans)', ...fontFamily.sans],
 				sora: ['var(--font-sora)'],
@@ -36,6 +38,7 @@ const config = {
 	},
 	plugins: [
 		require('tailwindcss-animate'),
+		nextui(),
 	],
 } satisfies Config;
 

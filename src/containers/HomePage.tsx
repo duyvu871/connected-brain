@@ -13,7 +13,7 @@ interface HomePageProps {
 
 function HomePage({}: HomePageProps) {
 	return (
-		<main className={'mx-auto relative w-full'}>
+		<main className={'mx-auto relative w-full h-full dark'}>
 			<motion.div
 				className={'fixed w-full z-50'}
 				initial={{

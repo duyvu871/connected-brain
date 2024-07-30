@@ -5,6 +5,12 @@ const APIs = {
 		createSection: '/api/v1/feature/chatbot/create-new-section',
 		updateSection: '/api/v1/feature/chatbot/update-section',
 	},
+	speechToText: {
+		endpoint: 'http://14.225.218.92:3001',
+		uploadAudio: '/api/v1/feature/s2t/upload',
+		getTranscript: '/api/v1/feature/s2t/transcript/get',
+		getTranscriptList: '/api/v1/feature/s2t/transcript/list',
+	},
 };
 
 const routeList = {

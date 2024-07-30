@@ -19,6 +19,7 @@
 /*}*/
 
 .layout {
+    /*--dark-mode:*/
     display: flex;
     /*height: fit-content;*/
     height: 100%;

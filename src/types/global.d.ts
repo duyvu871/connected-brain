@@ -29,4 +29,5 @@ declare global {
 		[K in keyof U as K extends T ? never : K]: U[K];
 	};
 }
+
 export {};

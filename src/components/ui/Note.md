@@ -1,1 +1,1 @@
-tất cả các file trong này không cần được phép chỉnh sửa trừ trường hợp bắt buộc
+tất cả các file trong này được phép chỉnh sửa trừ trường hợp bắt buộc

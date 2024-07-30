@@ -12,7 +12,7 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
 		// <div className="layout">
 		<>
 
-			<main className="flex-1 flex-col h-full max-w-full overflow-hidden bg-[--background-hero]/80">
+			<main className="flex flex-col flex-grow h-[100svh] max-w-[100svw] overflow-hidden bg-[--background-hero]/80">
 				<NextUiSidebar />
 				{children}
 			</main>

@@ -5,7 +5,74 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
+      <change afterPath="$PROJECT_DIR$/src/app/(feature)/feature/speech-to-text/[recordId]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(feature)/feature/speech-to-text/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(feature)/feature/speech-to-text/record/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/api/v1/feature/speech-to-text/test/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/api/v1/feature/speech-to-text/upload/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Loaders/RingLoader.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SoftUI/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/AppS2T.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/RecordPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/SidebarLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Analytics/Progress.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/DynamicContentLoaded.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Record/stream_record.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Record/upload.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Sidebar/content_sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Sidebar/drawer_sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Sidebar/main_sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature/text-editor.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature/transcript_list.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature/transcript_note.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature/transcript_speaker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_feature_tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/Transcript_spec/Duration.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_editor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_history.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_item.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_player.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_player_timeline.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_search.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_toolbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/components/Transcript/transcript_wrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/default_page_provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/hooks/useSpeechToText.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/redux/provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/starter_screen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/states/jotai.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/SpeechToText/states/transcript.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/middleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useInterval.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/axios-next-auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/middlewares/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/SpeechToText/speechToText.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/soft-ui-base/box.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/time.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BaseLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BaseLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar/NavbarComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/NavbarComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NextuiProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NextuiProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Providers/MantineProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Providers/MantineProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/Note.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/Note.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/navigation-menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/navigation-menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/InputWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Apps/Chatbot/components/ChatSection/InputWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Feature/FeatureDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Feature/FeatureDetailPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/HomePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/auth/signin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/auth/signin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/auth/signup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/auth/signup.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/nextauthOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/nextauthOptions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/global.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/global.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/next-auth.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/next-auth.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/route-list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/route-list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +153,7 @@
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;product&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/CODE/connected-brain/front-end/src/components/PopoverComponent&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/CODE/connected-brain/front-end/public&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
@@ -95,18 +162,18 @@
     &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Sass/SCSS&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
     &quot;ts.external.directory.path&quot;: &quot;F:\\CODE\\connected-brain\\front-end\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\CODE\connected-brain\front-end\public" />
+      <recent name="F:\CODE\connected-brain\front-end\src\containers\Apps\SpeechToText\components" />
       <recent name="F:\CODE\connected-brain\front-end\src\components\PopoverComponent" />
       <recent name="F:\CODE\connected-brain\front-end\src\hooks" />
       <recent name="F:\CODE\connected-brain\front-end\src\utils" />
-      <recent name="F:\CODE\connected-brain\front-end\src" />
-      <recent name="F:\CODE\connected-brain\front-end" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\CODE\connected-brain\front-end\src\lib\google_cloud" />
@@ -181,6 +248,25 @@
       <workItem from="1719204495576" duration="9500000" />
       <workItem from="1719365126247" duration="971000" />
       <workItem from="1719476536053" duration="583000" />
+      <workItem from="1719509261481" duration="5000" />
+      <workItem from="1719509307361" duration="2276000" />
+      <workItem from="1719777094746" duration="563000" />
+      <workItem from="1719813969681" duration="2433000" />
+      <workItem from="1719999835774" duration="1106000" />
+      <workItem from="1720229231467" duration="4608000" />
+      <workItem from="1720508653327" duration="3567000" />
+      <workItem from="1720772146975" duration="110000" />
+      <workItem from="1720772413721" duration="1707000" />
+      <workItem from="1720850990296" duration="41828000" />
+      <workItem from="1721123558414" duration="359000" />
+      <workItem from="1721123949654" duration="59288000" />
+      <workItem from="1721333486860" duration="84246000" />
+      <workItem from="1721569125260" duration="3057000" />
+      <workItem from="1721632114197" duration="31467000" />
+      <workItem from="1721891817347" duration="4009000" />
+      <workItem from="1721900207279" duration="13887000" />
+      <workItem from="1722144173948" duration="5605000" />
+      <workItem from="1722231329155" duration="23433000" />
     </task>
     <servers />
   </component>
@@ -213,16 +299,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixup! update" />
     <option name="LAST_COMMIT_MESSAGE" value="fixup! update" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/Navbar/NavbarComponent.tsx</url>
-          <line>329</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
