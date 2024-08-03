@@ -5,8 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcae71ef-7b9d-469c-b13f-298382cb08a3" name="Changes" comment="fixup! update">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/connected-brain-dashed.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/ocr/illustration.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/ocr/pdf-stock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(feature)/feature/ocr/p/[documentId]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Resources/styles/wave-divider.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Resources/wave-divider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/dialog/dialog-feedback.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/dropdown/dropdown-menu.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/origin-footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/doc-pre-upload.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/explore-example.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/explore-illustation.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/explore-section.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/select-zone.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/starter/upload-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/components/user-avatar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/header-wrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/playground.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/states/playground.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Apps/ocr/states/starter.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/file.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecosystem.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/ecosystem.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(feature)/feature/ocr/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(feature)/feature/ocr/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/dropdown-menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/dropdown-menu.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +94,9 @@
 }</component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -200,7 +228,10 @@
       <workItem from="1721891817347" duration="4009000" />
       <workItem from="1721900207279" duration="13887000" />
       <workItem from="1722144173948" duration="5605000" />
-      <workItem from="1722231329155" duration="24030000" />
+      <workItem from="1722231329155" duration="29195000" />
+      <workItem from="1722358391984" duration="1082000" />
+      <workItem from="1722359586403" duration="55588000" />
+      <workItem from="1722627137319" duration="8531000" />
     </task>
     <servers />
   </component>
