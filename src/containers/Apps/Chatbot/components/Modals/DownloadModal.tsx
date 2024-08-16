@@ -3,23 +3,30 @@ import ModalWrapper from '@/containers/Apps/Chatbot/components/Modals/ModalWrapp
 import { SlCloudDownload } from 'react-icons/sl';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { useSearchParams } from 'next/navigation';
-
+import { cn } from '@/lib/utils';
 interface DownloadModalProps {
-};
+	chatHistoryCollapsed: boolean;
+}
 
-const DownloadModalTrigger: React.FC<{}> = () => {
+// const DownloadModalTrigger: React.FC<{ chatHistoryCollapsed: boolean }> = () => {
+const DownloadModalTrigger: React.FC<DownloadModalProps> = ({ chatHistoryCollapsed }) => {
 	return (
 		<div className={'flex justify-center items-center'}>
-			<div
-				className={'flex justify-center items-center p-2 text-white border border-gray-600 rounded-xl transition-all hover:text-gray-800 hover:bg-gray-200'}>
-				<SlCloudDownload className={'text-lg'} />
+			<div className={'flex justify-center items-center p-2 text-white'}>
+				<SlCloudDownload className={'text-2xl'} />
 			</div>
+			<span
+				className={cn(
+					'text-white leading-5 transition-all ml-4',
+					chatHistoryCollapsed ? 'w-0 invisible overflow-hidden' : 'ml-2 w-fit',
+				)}>
+				{'Download Chat History'}
+			</span>
 		</div>
 	);
 };
 
 const DownloadModalContent: React.FC<{}> = () => {
-
 	const params = useSearchParams();
 
 	const downloadChatHistory = () => {
@@ -47,13 +54,11 @@ const DownloadModalContent: React.FC<{}> = () => {
 	};
 
 	return (
-		<div className={'flex flex-col justify-center items-center px-5 pb-5'}>
+		<div className={'flex flex-col justify-center items-center px-5 pb-5 bg-zinc-800'}>
 			<div className={'flex justify-center items-center'}>
 				<SlCloudDownload className={'text-white text-lg'} />
 			</div>
-			<div className={'text-white text-lg font-semibold mt-2'}>
-				Download Chat History
-			</div>
+			<div className={'text-white text-lg font-semibold mt-2'}>Download Chat History</div>
 			<div>
 				<div className={'text-white text-sm mt-2'}>
 					Download your chat history to view it later.
@@ -63,8 +68,11 @@ const DownloadModalContent: React.FC<{}> = () => {
 				</div>
 			</div>
 			<div className={'w-full flex flex-col justify-center items-center gap-2 mt-2'}>
-				<div className={'rounded-xl w-full bg-gray-600 flex justify-center items-center cursor-pointer'}
-						 onClick={downloadChatHistory}>
+				<div
+					className={
+						'rounded-xl w-full bg-zinc-600 flex justify-center items-center cursor-pointer'
+					}
+					onClick={downloadChatHistory}>
 					<IoDocumentTextOutline size={26} />
 					<span className={'text-white p-2'}>Download as .txt</span>
 				</div>
@@ -73,9 +81,13 @@ const DownloadModalContent: React.FC<{}> = () => {
 	);
 };
 
-function DownloadModal({}: DownloadModalProps) {
+function DownloadModal({ chatHistoryCollapsed }: DownloadModalProps) {
 	return (
-		<ModalWrapper trigger={<DownloadModalTrigger />} content={<DownloadModalContent />} containCloseBtn={true} />
+		<ModalWrapper
+			trigger={<DownloadModalTrigger chatHistoryCollapsed={chatHistoryCollapsed} />}
+			content={<DownloadModalContent />}
+			containCloseBtn={true}
+		/>
 	);
 }
 

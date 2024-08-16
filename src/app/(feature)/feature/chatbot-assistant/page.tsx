@@ -9,9 +9,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import NextuiProvider from '@/components/NextuiProvider';
 
-interface PageProps {
-
-};
+interface PageProps {}
 
 async function Page({}: PageProps) {
 	const session = await getServerAuthSession();
