@@ -7,11 +7,16 @@ export default function InputWrapper() {
 	const { sendMessage } = useChatbot();
 
 	return (
-		<div className={'w-full h-14 h-fit rounded-[30px] border border-gray-800 bg-gray-950 relative z-[110]'}>
+		<div
+			className={
+				'w-full h-14 h-fit rounded-[30px] border border-zinc-800 bg-zinc-800 relative z-[110]'
+			}>
 			<ContentMedia />
-			<InputMessage action={{
-				sendMessage,
-			}} />
+			<InputMessage
+				action={{
+					sendMessage,
+				}}
+			/>
 		</div>
 	);
 }

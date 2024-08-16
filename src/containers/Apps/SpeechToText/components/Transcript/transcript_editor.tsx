@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { Center, Flex, ScrollArea, Stack } from '@mantine/core';
 import { useAtom } from 'jotai/index';
-import { activeTranscriptSentence, transcript } from '@/containers/Apps/SpeechToText/states/transcript';
+import {
+	activeTranscriptSentence,
+	transcript,
+} from '@/containers/Apps/SpeechToText/states/transcript';
 import useUID from '@/hooks/useUID';
 import { formatMillisecondsToMinutesSeconds } from '@/utils/time';
 import { audioCurrentTime, audioFile } from '@/containers/Apps/SpeechToText/states/jotai';
 import { atom } from 'jotai';
 import { useScrollIntoView } from '@mantine/hooks';
 
-
-interface TranscriptListProps {
-
-};
+interface TranscriptListProps {}
 
 interface TranscriptListItemProps {
 	speaker: string;
@@ -24,17 +24,13 @@ interface TranscriptListItemProps {
 
 const audioItemActive = atom<string>(null as string | null);
 
-const TranscriptListItem: React.FC<TranscriptListItemProps> = (props) => {
-	const { scrollIntoView, targetRef } = useScrollIntoView<
-		HTMLDivElement,
-		HTMLDivElement
-	>();
+const TranscriptListItem: React.FC<TranscriptListItemProps> = props => {
+	const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement, HTMLDivElement>();
 	const [activeSentence] = useAtom(activeTranscriptSentence);
 
 	useEffect(() => {
 		if (activeSentence === props.audioId) {
-			console.log(activeSentence,
-			);
+			console.log(activeSentence);
 			scrollIntoView();
 		}
 	}, [activeSentence]);
@@ -45,11 +41,12 @@ const TranscriptListItem: React.FC<TranscriptListItemProps> = (props) => {
 			align={'start'}
 			justify={'center'}
 			className={'flex-grow h-fit w-full gap-1'}
-			ref={targetRef}
-		>
+			ref={targetRef}>
 			<Flex align={'center'} justify={'flex-start'} className={'w-full gap-2'}>
 				<p className={'text-green-400/85 text-bold text-medium'}>{props.speaker ?? 'Speaker'}</p>
-				<p className={'text-gray-500 text-bold text-sm'}>{formatMillisecondsToMinutesSeconds(props.start)}</p>
+				<p className={'text-gray-500 text-bold text-sm'}>
+					{formatMillisecondsToMinutesSeconds(props.start)}
+				</p>
 			</Flex>
 			{/*<Tooltip*/}
 			{/*	className={'dark'}*/}
@@ -81,7 +78,7 @@ function TranscriptList({}: TranscriptListProps) {
 	const [currentTime, setCurrentTime] = useAtom<number>(audioCurrentTime);
 	return (
 		<Center className={'flex-grow w-full overflow-hidden'}>
-			<ScrollArea className={'h-80'} type="scroll" scrollbarSize={6} scrollHideDelay={500}>
+			<ScrollArea className={'h-80'} type='scroll' scrollbarSize={6} scrollHideDelay={500}>
 				<Stack align={'start'} className={'gap-3'}>
 					{transcript_data?.transcript.map((item, index) => (
 						<TranscriptListItem
@@ -95,7 +92,6 @@ function TranscriptList({}: TranscriptListProps) {
 					))}
 				</Stack>
 			</ScrollArea>
-
 		</Center>
 	);
 }

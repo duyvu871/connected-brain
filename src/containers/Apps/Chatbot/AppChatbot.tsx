@@ -8,11 +8,11 @@ import ChatHistory from '@/containers/Apps/Chatbot/components/ChatHistory';
 import HistoryModal from '@/containers/Apps/Chatbot/components/Modals/HistoryModal';
 import FeatureNavbar from '@/components/Navbar/FeatureNavbar';
 
-interface AppChatbotProps {
+interface AppChatbotProps {}
 
-};
-
-const LazyChatSection = React.lazy(() => import('@/containers/Apps/Chatbot/components/ChatSection/index'));
+const LazyChatSection = React.lazy(
+	() => import('@/containers/Apps/Chatbot/components/ChatSection/index'),
+);
 
 function AppChatbot({}: AppChatbotProps) {
 	return (
@@ -20,27 +20,31 @@ function AppChatbot({}: AppChatbotProps) {
 			<div className={'w-full h-full relative'}>
 				<FeatureNavbar />
 				<div className={'w-full h-[calc(100%-64px)] flex'}>
+					<Suspense
+						fallback={
+							<SkeletonChatHistory
+								classnames={{
+									wrapper: 'max-w-sm w-full h-full',
+								}}
+							/>
+						}>
+						<ChatHistory
+							classnames={{
+								wrapper: 'md:block hidden',
+							}}
+						/>
+					</Suspense>
 					<div className={'w-full md:p-5'}>
-						<div className={'w-full h-full md:border border-gray-800 md:rounded-xl'}>
+						<div className={'w-full h-full md:border border-zinc-800 md:rounded-xl'}>
 							<Suspense fallback={<SkeletonChatSection />}>
 								<LazyChatSection />
 							</Suspense>
 						</div>
 					</div>
-					<Suspense fallback={
-						<SkeletonChatHistory classnames={{
-							wrapper: 'max-w-sm w-full h-full',
-						}} />
-					}>
-						<ChatHistory classnames={{
-							wrapper: 'md:block hidden',
-						}} />
-					</Suspense>
 				</div>
 			</div>
 			<HistoryModal />
 		</>
-
 	);
 }
 

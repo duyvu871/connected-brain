@@ -4,9 +4,7 @@ import { LuClipboardList } from 'react-icons/lu';
 import { useChatbot } from '@/contexts/ChatbotContext';
 import { cn } from '@/lib/utils';
 
-interface LaunchScreenProps {
-
-};
+interface LaunchScreenProps {}
 
 const LaunchOption = [
 	{
@@ -48,13 +46,13 @@ function LaunchScreen({}: LaunchScreenProps) {
 				<div className={'w-full flex justify-center items-center mx-auto'}>
 					<div className={'flex gap-3 max-w-3xl flex-wrap'}>
 						{LaunchOption.map((option, index) => (
-							<div key={index}
-									 className={cn(
-										 'flex flex-col justify-between items-center gap-2 max-w-xs h-32 border border-gray-800 rounded-xl p-2 bg-gray-900',
-										 'hover:bg-gray-800 transition-all duration-300 cursor-pointer',
-									 )}
-									 onClick={handleSendMessage(option.prompt)}
-							>
+							<div
+								key={index}
+								className={cn(
+									'flex flex-col justify-between items-center gap-2 max-w-xs h-32 border border-zinc-800 rounded-xl p-2 bg-zinc-900',
+									'hover:bg-zinc-800 transition-all duration-300 cursor-pointer',
+								)}
+								onClick={handleSendMessage(option.prompt)}>
 								<div className={'text-white p-2'}>
 									<span>{option.title}</span>
 								</div>

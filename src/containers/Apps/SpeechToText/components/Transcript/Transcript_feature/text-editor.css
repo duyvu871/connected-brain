@@ -4,8 +4,8 @@
 /*}*/
 
 @layer overrides {
-    .mantine-RichTextEditor-content {
-        min-height: 500px;
-        @apply bg-gray-600;
-    }
+	.mantine-RichTextEditor-content {
+		min-height: 500px;
+		@apply bg-zinc-600;
+	}
 }

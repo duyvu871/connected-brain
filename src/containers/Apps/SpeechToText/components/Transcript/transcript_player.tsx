@@ -3,7 +3,12 @@ import { Center, Flex } from '@mantine/core';
 import { Tooltip } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
 import { LuPencilLine } from 'react-icons/lu';
-import { HiMiniArrowUturnLeft, HiMiniArrowUturnRight, HiMiniPause, HiMiniPlay } from 'react-icons/hi2';
+import {
+	HiMiniArrowUturnLeft,
+	HiMiniArrowUturnRight,
+	HiMiniPause,
+	HiMiniPlay,
+} from 'react-icons/hi2';
 import { PiShareFill } from 'react-icons/pi';
 import { useAtom } from 'jotai';
 import {
@@ -37,13 +42,13 @@ function TranscriptPlayer() {
 	const transcriptItemRef = useRef<Record<string, HTMLDivElement>>({});
 
 	const { start: startInterval, stop: stopInterval } = useInterval(
-		() => setCurrentTime((s) => s + 1000),
+		() => setCurrentTime(s => s + 1000),
 		1000,
 	);
 
 	useEffect(() => {
 		if (currentFile) {
-			const audioSegments = transcriptList?.transcript.map((sentence) => {
+			const audioSegments = transcriptList?.transcript.map(sentence => {
 				const start = sentence.start;
 				const end = sentence.end;
 				const text = sentence.text;
@@ -58,9 +63,7 @@ function TranscriptPlayer() {
 				src: [currentFile.url],
 				autoplay: false,
 				html5: true, // use html5 audio
-				onload: () => {
-
-				},
+				onload: () => {},
 				onplay: () => {
 					console.log('onplay');
 					setIsPlaying(true);
@@ -77,15 +80,18 @@ function TranscriptPlayer() {
 					stopInterval();
 					setCurrentTime(0);
 				},
-				onseek: (soundId) => {
+				onseek: soundId => {
 					// console.log('onseek', soundId);
-					const currentSeek = soundRef.current?.seek() as number * 1000;
+					const currentSeek = (soundRef.current?.seek() as number) * 1000;
 					setCurrentTime(currentSeek);
-					const findActiveSentence = transcriptList?.transcript.findIndex((sentence) => {
+					const findActiveSentence = transcriptList?.transcript.findIndex(sentence => {
 						return currentSeek >= sentence.start && currentSeek <= sentence.end;
 					});
 					// console.log('findActiveSentence: ', findActiveSentence);
-					if (findActiveSentence !== -1 && `audio-${currentFile.name}-${findActiveSentence}` !== activeSentence) {
+					if (
+						findActiveSentence !== -1 &&
+						`audio-${currentFile.name}-${findActiveSentence}` !== activeSentence
+					) {
 						setActiveTranscriptSentence(`audio-${currentFile.name}-${findActiveSentence}`);
 					}
 				},
@@ -127,8 +133,7 @@ function TranscriptPlayer() {
 			soundRef.current.seek(value / 1000);
 		}
 	};
-	const share = () => {
-	};
+	const share = () => {};
 
 	useHotkeys([
 		['ArrowLeft', () => backward()],
@@ -136,9 +141,7 @@ function TranscriptPlayer() {
 		['Space', () => togglePause()],
 	]);
 
-	useEffect(function init() {
-
-	}, []);
+	useEffect(function init() {}, []);
 
 	useEffect(() => {
 		if (audioRef.current) {
@@ -156,17 +159,11 @@ function TranscriptPlayer() {
 				handleSeek(currentTime);
 			}
 		}
-	}, [
-		currentTime,
-		isPlaying,
-		setCurrentTime,
-		startInterval,
-		stopInterval,
-	]);
+	}, [currentTime, isPlaying, setCurrentTime, startInterval, stopInterval]);
 
 	return (
 		<Flex justify={'center'} align={'center'} className={'gap-5'}>
-			<Tooltip className={'dark'} content="Edit" classNames={{ content: 'text-md' }}>
+			<Tooltip className={'dark'} content='Edit' classNames={{ content: 'text-md' }}>
 				<Center
 					className={cn(
 						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer',
@@ -174,23 +171,22 @@ function TranscriptPlayer() {
 							'bg-gray-400/70': enableEdit,
 						},
 					)}
-					onClick={toggleEdit}
-				>
-					<LuPencilLine size={20} className={'text-green-400'} />
+					onClick={toggleEdit}>
+					<LuPencilLine size={20} className={'white'} />
 				</Center>
 			</Tooltip>
 
-			<Tooltip className={'dark'} content="Backward" classNames={{ content: 'text-md' }}>
+			<Tooltip className={'dark'} content='Backward' classNames={{ content: 'text-md' }}>
 				<Center
 					className={cn(
-						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer')}
-					onClick={backward}
-				>
-					<HiMiniArrowUturnLeft size={20} className={'text-green-400'} />
+						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer',
+					)}
+					onClick={backward}>
+					<HiMiniArrowUturnLeft size={20} className={'white'} />
 				</Center>
 			</Tooltip>
 
-			<Tooltip className={'dark'} content="Pause/Play" classNames={{ content: 'text-md' }}>
+			<Tooltip className={'dark'} content='Pause/Play' classNames={{ content: 'text-md' }}>
 				<Center
 					className={cn(
 						'border-solid border-[2px] border-gray-600/70 w-9 h-9 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer',
@@ -198,29 +194,31 @@ function TranscriptPlayer() {
 							'bg-gray-400/70': isPlaying,
 						},
 					)}
-					onClick={togglePause}
-				>
-					{isPlaying ? <HiMiniPause size={24} className={'text-green-400'} /> :
-						<HiMiniPlay size={24} className={'text-green-400'} />}
+					onClick={togglePause}>
+					{isPlaying ? (
+						<HiMiniPause size={24} className={'white'} />
+					) : (
+						<HiMiniPlay size={24} className={'white'} />
+					)}
 				</Center>
 			</Tooltip>
 
-			<Tooltip className={'dark'} content="Forward" classNames={{ content: 'text-md' }}>
+			<Tooltip className={'dark'} content='Forward' classNames={{ content: 'text-md' }}>
 				<Center
 					className={cn(
-						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer')}
-					onClick={forward}
-				>
-					<HiMiniArrowUturnRight size={20} className={'text-green-400'} />
+						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer',
+					)}
+					onClick={forward}>
+					<HiMiniArrowUturnRight size={20} className={'white'} />
 				</Center>
 			</Tooltip>
 
-			<Tooltip className={'dark'} content="Share" classNames={{ content: 'text-md' }}>
+			<Tooltip className={'dark'} content='Share' classNames={{ content: 'text-md' }}>
 				<Center
 					className={cn(
-						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer')}
-				>
-					<PiShareFill size={20} className={'text-green-400'} />
+						'border-solid border-[2px] border-gray-600/70 w-8 h-8 rounded-full bg-gray-400/40 hover:bg-gray-400/70 transition-all cursor-pointer',
+					)}>
+					<PiShareFill size={20} className={'white'} />
 				</Center>
 			</Tooltip>
 		</Flex>
