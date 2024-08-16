@@ -25,9 +25,9 @@ function FeatureNavbar({ customChild, navTitle }: FeatureNavbarProps) {
 						<div className='flex items-center'>
 							<div className='flex items-center '>
 								<img
-									src='/chatbot/chatbot-icon.jpg'
+									src='/chatbot/chatbot-icon.svg'
 									alt='logo'
-									className='h-10 w-10 rounded-full mr-4'
+									className='h-8 w-8 rounded-full mr-4'
 								/>
 								<h1 className='text-xl font-semibold text-gray-100'>Chatbot Assistant</h1>
 							</div>

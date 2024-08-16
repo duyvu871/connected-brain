@@ -35,7 +35,7 @@ function AppChatbot({}: AppChatbotProps) {
 						/>
 					</Suspense>
 					<div className={'w-full md:p-5'}>
-						<div className={'w-full h-full md:border border-gray-800 md:rounded-xl'}>
+						<div className={'w-full h-full md:border border-zinc-800 md:rounded-xl'}>
 							<Suspense fallback={<SkeletonChatSection />}>
 								<LazyChatSection />
 							</Suspense>

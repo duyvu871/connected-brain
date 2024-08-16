@@ -266,7 +266,7 @@ function ChatHistory({ classnames }: ChatHistoryProps) {
 	return (
 		<div
 			className={cn(
-				' flex flex-col justify-between transition-all bottom-0 z-[120] w-full md:max-w-xs md:h-full md:relative md:p-5 md:pl-0',
+				' flex flex-col justify-between transition-all bottom-0 z-[120] w-full md:max-w-xs md:h-full md:relative md:p-5 md:pr-0',
 				chatHistoryCollapsed ? 'w-fit gap-0' : '',
 				classnames?.wrapper || '',
 			)}>
