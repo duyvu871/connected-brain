@@ -26,8 +26,8 @@ export default function TranscriptNote() {
 
 	return (
 		<Flex direction={'column'} justify={'start'} align={'center'} className={'flex-grow'}>
-			<RichTextEditor editor={editor} className={'max-h-full flex-grow bg-gray-800 rounded-lg'}>
-				<RichTextEditor.Toolbar sticky stickyOffset={60}>
+			<RichTextEditor editor={editor} className={'max-h-full flex-grow bg-zinc-800 rounded-lg'}>
+				<RichTextEditor.Toolbar sticky stickyOffset={0}>
 					<RichTextEditor.ControlsGroup>
 						<RichTextEditor.Bold />
 						<RichTextEditor.Italic />

@@ -14,9 +14,7 @@ import { useTranscript } from '@/containers/Apps/SpeechToText/hooks/useSpeechToT
 import { transcript } from '@/containers/Apps/SpeechToText/states/transcript';
 import TranscriptFeature from '@/containers/Apps/SpeechToText/components/Transcript/Transcript_feature';
 
-interface AppS2TProps {
-
-};
+interface AppS2TProps {}
 
 function AppS2T({}: AppS2TProps) {
 	const [isSectionLoad, _] = useAtom(isSectionLoaded);
@@ -54,52 +52,70 @@ function AppS2T({}: AppS2TProps) {
 	}, [currentSection]);
 	return (
 		<DynamicContentLoaded>
-			<Center p={'md'} h={'100%'} className={'bg-gray-900 rounded-[2rem]'}>
-				<Flex direction={'row'} justify={'center'} align={'center'} h={'100%'} w={'100%'} className={'gap-5'}>
-					<Flex direction={'column'} h={'100%'} justify={'center'} align={'center'}
-								className={'rounded-[2rem] gap-5 flex-grow-[7]'}>
-						{
-							isSectionLoad
-								? (
-									<Flex direction={'column'} justify={'center'} align={'center'}
-												className={'flex-grow w-full h-full gap-5'}>
-										<Flex className={'gap-5 h-fit w-full'} direction={'row'} justify={'center'} align={'center'}>
-											<Center className={'flex-grow-[3] h-32 bg-gray-800 rounded-2xl'}>
-												<TranscriptResultProgress />
-											</Center>
-											<Center className={' flex-grow-[3] h-32 bg-gray-800 rounded-2xl'}>
-												<Duration />
-											</Center>
-											<Center className={' flex-grow-[3] h-32 bg-gray-800 rounded-2xl'}>
-												<Duration />
-											</Center>
-										</Flex>
-										<Flex className={'gap-5 flex-grow w-full h-full'} direction={'row'}
-													justify={'center'}
-													align={'center'}>
-											<Flex className={'w-full h-full bg-gray-800 rounded-2xl '}>
-												<TranscriptWrapper />
-											</Flex>
-										</Flex>
+			<Center p={'md'} h={'100%'} className={'bg-zinc-900 rounded-[2rem]'}>
+				<Flex
+					direction={'row'}
+					justify={'center'}
+					align={'center'}
+					h={'100%'}
+					w={'100%'}
+					className={'gap-5'}>
+					<Flex
+						direction={'column'}
+						h={'100%'}
+						justify={'center'}
+						align={'center'}
+						className={'rounded-[2rem] gap-5 flex-grow-[7]'}>
+						{isSectionLoad ? (
+							<Flex
+								direction={'column'}
+								justify={'center'}
+								align={'center'}
+								className={'flex-grow w-full h-full gap-5'}>
+								<Flex
+									className={'gap-5 h-fit w-full'}
+									direction={'row'}
+									justify={'center'}
+									align={'center'}>
+									<Center className={'flex-grow-[3] h-32 bg-zinc-800 rounded-2xl'}>
+										<TranscriptResultProgress />
+									</Center>
+									<Center className={' flex-grow-[3] h-32 bg-zinc-800 rounded-2xl'}>
+										<Duration />
+									</Center>
+									<Center className={' flex-grow-[3] h-32 bg-zinc-800 rounded-2xl'}>
+										<Duration />
+									</Center>
+								</Flex>
+								<Flex
+									className={'gap-5 flex-grow w-full h-full'}
+									direction={'row'}
+									justify={'center'}
+									align={'center'}>
+									<Flex className={'w-full h-full bg-zinc-800 rounded-2xl '}>
+										<TranscriptWrapper />
 									</Flex>
-								)
-								: (<StarterScreen />)
-						}
+								</Flex>
+							</Flex>
+						) : (
+							<StarterScreen />
+						)}
 					</Flex>
-					{
-						isSectionLoad &&
+					{isSectionLoad && (
 						<Center w={'1/2'} h={'100%'} className={'max-w-md min-w-96 flex-grow-[3]'}>
-							<Flex direction={'column'} justify={'start'} align={'center'}
-										className={'flex-grow h-full bg-gray-800 rounded-2xl p-5 gap-5'}>
+							<Flex
+								direction={'column'}
+								justify={'start'}
+								align={'center'}
+								className={'flex-grow h-full bg-zinc-800 rounded-2xl p-5 gap-5 overflow-y-auto'}>
 								<TranscriptSearch />
 								<TranscriptFeatureTab />
-								<TranscriptFeature />
+								<TranscriptFeature className={'overflow-y-auto w-full h-full'} />
 							</Flex>
 						</Center>
-					}
+					)}
 				</Flex>
 			</Center>
-
 		</DynamicContentLoaded>
 	);
 }

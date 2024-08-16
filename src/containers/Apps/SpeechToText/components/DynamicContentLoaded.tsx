@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 interface DynamicContentLoadedProps {
 	children?: React.ReactNode;
-};
+}
 
 function DynamicContentLoaded({ children }: DynamicContentLoadedProps) {
 	const router = useRouter();
@@ -25,13 +25,11 @@ function DynamicContentLoaded({ children }: DynamicContentLoadedProps) {
 	if (!ready)
 		return (
 			<Center h={'100%'} w={'100%'}>
-				<Loader color="green" size="lg" />
+				<Loader color='white' size='lg' />
 			</Center>
 		);
 
-	return (
-		<>{children}</>
-	);
+	return <>{children}</>;
 }
 
 export default DynamicContentLoaded;

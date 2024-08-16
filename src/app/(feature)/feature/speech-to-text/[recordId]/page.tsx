@@ -10,9 +10,7 @@ import DefaultPageProvider from '@/containers/Apps/SpeechToText/default_page_pro
 import SidebarLayout from '@/containers/Apps/SpeechToText/SidebarLayout';
 import '@mantine/tiptap/styles.css';
 
-interface PageProps {
-
-};
+interface PageProps {}
 
 async function Page({}: PageProps) {
 	const session = await getServerAuthSession();
